@@ -1,7 +1,9 @@
 ﻿@page "/employees"
-@using EM.Application.Abstract
+@using EM.Application.Services.Abstract
 @using EM.Core.Models
+@using EM.Application.Abstract.Services
 @inject IDataProvider<Employee> DataProvider
+@inject IBonusService BonusService;
 @attribute [StreamRendering]
 
 <PageTitle>Employees</PageTitle>
@@ -37,7 +39,7 @@ else
                 <td>
                     <div>
                         <span>Give Bonus</span>
-                        <button @onclick="() => PerformSpecificAction(action.Key)">Perform</button>
+                        <button @onclick="() => GiveBonus(employee)">Perform</button>
                     </div>
                 </td>
             </tr>
@@ -55,4 +57,11 @@ else
         _employees = e.ToArray();
     }
 
+    private void GiveBonus(Employee employee)
+    {
+        BonusService.GiveBonus(employee, 0.2m);
+        
+        if (_employees != null) 
+            DataProvider.SaveAllAsync(_employees);
+    }
 }

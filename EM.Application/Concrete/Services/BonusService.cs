@@ -1,8 +1,9 @@
+using EM.Application.Abstract.Services;
 using EM.Core.Models;
 
 namespace EM.Application.Concrete.Services;
 
-public class BonusesService
+public class BonusService : IBonusService
 {
     public void GiveBonus(Employee employee, decimal amount)
     {

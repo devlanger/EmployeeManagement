@@ -1,4 +1,5 @@
-using EM.Application.Abstract;
+using System.Text;
+using EM.Application.Services.Abstract;
 using EM.Core.Models;
 using Microsoft.Extensions.Options;
 
@@ -15,10 +16,26 @@ public class TxtFileDataProvider(IOptions<TxtDataSettings> options) : IDataProvi
         
         return Task.FromResult(result);
     }
-
+    
+    public Task SaveAllAsync(IEnumerable<Employee> employees)
+    {
+        var builder = new StringBuilder();
+        foreach (var employee in employees)
+        {
+            builder.AppendLine(SerializeEmployee(employee));
+        }
+        
+        return Task.CompletedTask;
+    }
+    
     private Task<IEnumerable<string>> ReadLines()
     {
         return Task.FromResult(File.ReadLines(_settings.FilePath));
+    }
+
+    private string SerializeEmployee(Employee employee)
+    {
+        return $"{employee.Id};{employee.PersonalIdNumber};{employee.Salary}";
     }
 
     private Employee ParseSalaryField(string eachSalaryRow)
