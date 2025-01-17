@@ -4,7 +4,7 @@ namespace EM.Application;
 
 public class BonusesService
 {
-    public void GiveBonus(Employee employee, double amount)
+    public void GiveBonus(Employee employee, decimal amount)
     {
         var bonusAmount = employee.Salary * amount;
         employee.Salary = employee.Salary + bonusAmount;
