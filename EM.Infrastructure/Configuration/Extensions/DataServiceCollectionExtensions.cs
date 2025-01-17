@@ -1,8 +1,8 @@
 ﻿using EM.Application.Abstract.Services;
-using EM.Application.Concrete.DataProviders;
 using EM.Application.Concrete.Services;
 using EM.Application.Services.Abstract;
 using EM.Core.Models;
+using EM.Infrastructure.DataProviders;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -14,6 +14,7 @@ public static class DataServiceCollectionExtensions
     {
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped<IBonusService, BonusService>();
+        //services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
         services.AddScoped<IDataProvider<Employee>, TxtFileDataProvider>();
     }
 }

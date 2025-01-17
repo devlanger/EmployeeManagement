@@ -8,9 +8,9 @@ public class EmployeeService : IEmployeeService
 {
     private readonly IDataProvider<Employee> _dataProvider;
 
-    public EmployeeService(IDataProvider<Employee> _dataProvider)
+    public EmployeeService(IDataProvider<Employee> dataProvider)
     {
-        this._dataProvider = _dataProvider;
+        this._dataProvider = dataProvider;
     }
 
     public async Task<Employee> GetEmployeeAsync(int employeeId)

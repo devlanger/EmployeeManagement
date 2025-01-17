@@ -1,9 +1,8 @@
-using System.Text;
 using EM.Application.Services.Abstract;
 using EM.Core.Models;
 using Microsoft.Extensions.Options;
 
-namespace EM.Application.Concrete.DataProviders;
+namespace EM.Infrastructure.DataProviders;
 
 public class TxtFileDataProvider(IOptions<TxtDataSettings> options) : IDataProvider<Employee>
 {
