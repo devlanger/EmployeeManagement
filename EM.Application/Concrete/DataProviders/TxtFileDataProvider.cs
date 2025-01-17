@@ -17,15 +17,11 @@ public class TxtFileDataProvider(IOptions<TxtDataSettings> options) : IDataProvi
         return Task.FromResult(result);
     }
     
-    public Task SaveAllAsync(IEnumerable<Employee> employees)
+    public async Task SaveAllAsync(IEnumerable<Employee> employees)
     {
-        var builder = new StringBuilder();
-        foreach (var employee in employees)
-        {
-            builder.AppendLine(SerializeEmployee(employee));
-        }
-        
-        return Task.CompletedTask;
+        var x = employees.Select(SerializeEmployee).ToList();
+
+        await File.WriteAllLinesAsync(_settings.FilePath, x);
     }
     
     private Task<IEnumerable<string>> ReadLines()

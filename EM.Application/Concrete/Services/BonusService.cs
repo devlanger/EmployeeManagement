@@ -8,6 +8,6 @@ public class BonusService : IBonusService
     public void GiveBonus(Employee employee, decimal amount)
     {
         var bonusAmount = employee.Salary * amount;
-        employee.Salary = employee.Salary + bonusAmount;
+        employee.Salary = Math.Round(employee.Salary + bonusAmount, 2);
     }
 }

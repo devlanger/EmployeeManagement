@@ -4,7 +4,7 @@
 @using EM.Application.Abstract.Services
 @inject IDataProvider<Employee> DataProvider
 @inject IBonusService BonusService;
-@attribute [StreamRendering]
+@rendermode InteractiveServer
 
 <PageTitle>Employees</PageTitle>
 
@@ -37,10 +37,7 @@ else
                 <td>@employee.PersonalIdNumber</td>
                 <td>@employee.Salary</td>
                 <td>
-                    <div>
-                        <span>Give Bonus</span>
-                        <button @onclick="() => GiveBonus(employee)">Perform</button>
-                    </div>
+                    <button @onclick="() => GiveBonus(employee)">Give Bonus</button>
                 </td>
             </tr>
         }
