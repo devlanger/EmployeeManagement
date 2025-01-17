@@ -1,13 +1,7 @@
 namespace EM.Core;
 
-public class Employee
+public class Employee : BaseEntity
 {
-    public ulong EmployeeId { get; set; }
-    public double Salary { get; set; }
-
-    public Employee(ulong employeeId, uint salary)
-    {
-        EmployeeId = employeeId;
-        Salary = salary;
-    }
+    public string PersonalIdNumber { get; set; }
+    public decimal Salary { get; set; }
 }
