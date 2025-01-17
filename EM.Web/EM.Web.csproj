@@ -27,4 +27,10 @@
       <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Update="test_data.txt">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>

@@ -1,0 +1,49 @@
+﻿@page "/employees"
+@using EM.Core
+@inject IDataProvider<Employee> DataProvider
+@attribute [StreamRendering]
+
+<PageTitle>Employees</PageTitle>
+
+<h1>Employees</h1>
+
+<p>This component demonstrates showing data.</p>
+
+@if (_employees == null)
+{
+    <p>
+        <em>Loading...</em>
+    </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Personal Id Number</th>
+            <th>Salary</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var employee in _employees)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.PersonalIdNumber</td>
+                <td>@employee.Salary</td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Employee[]? _employees;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var e = await DataProvider.GetAllAsync();
+        _employees = e.ToArray();
+    }
+}
