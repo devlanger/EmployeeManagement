@@ -7,7 +7,7 @@ namespace EM.Infrastructure.Configuration.Extensions;
 
 public static class DataServiceCollectionExtensions
 {
-    public static IServiceCollection ConfigureIdentityServices(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureDataServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped<IDataProvider<Employee>, TxtFileDataProvider>();
