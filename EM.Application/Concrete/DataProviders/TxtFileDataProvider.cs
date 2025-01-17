@@ -1,17 +1,13 @@
-using EM.Core;
+using EM.Application.Abstract;
+using EM.Core.Models;
 using Microsoft.Extensions.Options;
 
-namespace EM.Application;
+namespace EM.Application.Concrete.DataProviders;
 
-public class TxtFileDataProvider : IDataProvider<Employee>
+public class TxtFileDataProvider(IOptions<TxtDataSettings> options) : IDataProvider<Employee>
 {
-    private readonly TxtDataSettings _settings;
+    private readonly TxtDataSettings _settings = options.Value;
 
-    public TxtFileDataProvider(IOptions<TxtDataSettings> options)
-    {
-        _settings = options.Value;
-    }
-    
     public Task<IEnumerable<Employee>> GetAllAsync()
     {
         var result = ReadLines().Result

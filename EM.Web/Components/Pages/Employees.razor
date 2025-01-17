@@ -1,5 +1,6 @@
 ﻿@page "/employees"
-@using EM.Core
+@using EM.Application.Abstract
+@using EM.Core.Models
 @inject IDataProvider<Employee> DataProvider
 @attribute [StreamRendering]
 
@@ -23,6 +24,7 @@ else
             <th>Id</th>
             <th>Personal Id Number</th>
             <th>Salary</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -32,6 +34,12 @@ else
                 <td>@employee.Id</td>
                 <td>@employee.PersonalIdNumber</td>
                 <td>@employee.Salary</td>
+                <td>
+                    <div>
+                        <span>Give Bonus</span>
+                        <button @onclick="() => PerformSpecificAction(action.Key)">Perform</button>
+                    </div>
+                </td>
             </tr>
         }
         </tbody>
@@ -46,4 +54,5 @@ else
         var e = await DataProvider.GetAllAsync();
         _employees = e.ToArray();
     }
+
 }

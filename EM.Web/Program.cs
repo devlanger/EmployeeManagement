@@ -1,5 +1,6 @@
 using EM.Application;
 using EM.Core;
+using EM.Core.Models;
 using EM.Infrastructure.Configuration;
 using EM.Infrastructure.Configuration.Extensions;
 using EM.Infrastructure.Data;

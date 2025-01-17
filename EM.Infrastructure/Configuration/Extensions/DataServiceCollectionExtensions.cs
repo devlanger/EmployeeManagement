@@ -1,5 +1,6 @@
-﻿using EM.Application;
-using EM.Core;
+﻿using EM.Application.Abstract;
+using EM.Application.Concrete.DataProviders;
+using EM.Core.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

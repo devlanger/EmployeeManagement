@@ -1,4 +1,4 @@
-using EM.Core;
+using EM.Core.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

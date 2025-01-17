@@ -1,6 +1,6 @@
-using EM.Core;
+using EM.Core.Models;
 
-namespace EM.Application;
+namespace EM.Application.Concrete.Services;
 
 public class BonusesService
 {

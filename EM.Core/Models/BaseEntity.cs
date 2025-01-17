@@ -1,4 +1,4 @@
-namespace EM.Core;
+namespace EM.Core.Models;
 
 public class BaseEntity
 {

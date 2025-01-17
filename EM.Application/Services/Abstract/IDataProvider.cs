@@ -1,4 +1,4 @@
-namespace EM.Core;
+namespace EM.Application.Abstract;
 
 public interface IDataProvider<T>
 {
