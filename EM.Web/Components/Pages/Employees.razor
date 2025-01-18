@@ -4,6 +4,7 @@
 @using EM.Application.Abstract.Services
 @inject IDataProvider<Employee> DataProvider
 @inject IBonusService BonusService;
+@inject IEmployeeService EmployeeService;
 @rendermode InteractiveServer
 
 <PageTitle>Employees</PageTitle>
@@ -30,6 +31,8 @@ else
         </tr>
         </thead>
         <tbody>
+        <button @onclick="GiveBonusToLowestSalaryMember">Give Bonus to lowest salary member</button>
+        
         @foreach (var employee in _employees)
         {
             <tr>
@@ -54,6 +57,15 @@ else
         _employees = e.ToArray();
     }
 
+    private async void GiveBonusToLowestSalaryMember()
+    {
+        var employee = await EmployeeService.GetEmployeeWithSmallestSalaryAsync();
+        BonusService.GiveBonus(employee, 0.2m);
+        
+        if (_employees != null) 
+            await DataProvider.SaveAllAsync(_employees);
+    }
+    
     private void GiveBonus(Employee employee)
     {
         BonusService.GiveBonus(employee, 0.2m);
