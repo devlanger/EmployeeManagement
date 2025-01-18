@@ -15,3 +15,4 @@ Add migration command:
 -[x] Add CQRS and use to communicate (FE <-> Controllers <-> MediatR)
 -[x] Add AutoMapper and use for View Model mappings
 -[x] Add roles and authorization to add employees and give salaries
+-[ ] Refresh roles after user update
