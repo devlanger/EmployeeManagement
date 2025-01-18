@@ -34,12 +34,12 @@ public static class SeedData
         var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
         if (adminUser == null)
         {
-            adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com" };
+            adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
             await userManager.CreateAsync(adminUser, "Test!123");
             await userManager.AddToRoleAsync(adminUser, IdentityConstants.ADMIN_ROLE_NAME);
         }
         
-        var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com" };
+        var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe"  };
         await userManager.CreateAsync(employeeUser, "Test!123");
         await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
 

@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using EM.Application.Abstract.Services;
 using EM.Application.Concrete.Services;
+using EM.Application.Mapper;
 using EM.Application.Services.Abstract;
 using EM.Core.Models;
 using EM.Infrastructure.DataProviders;
@@ -16,6 +17,7 @@ public static class DataServiceCollectionExtensions
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped<IBonusService, BonusService>();
         services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddAutoMapper(typeof(GlobalMappingProfile));
         services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
     }
 

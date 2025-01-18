@@ -8,12 +8,9 @@
 @rendermode InteractiveServer
 
 <AuthorizeView>
-    <p>Logged as: @context.User.Identity?.Name!</p>
     <PageTitle>Users</PageTitle>
 
     <h1>Users</h1>
-
-    <p>This component demonstrates showing data.</p>
 
     @if (users == null)
     {

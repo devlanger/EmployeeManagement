@@ -4,7 +4,8 @@
 @using Microsoft.AspNetCore.Identity
 @using Microsoft.EntityFrameworkCore
 @using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
-@using System.ComponentModel.DataAnnotations
+@using AutoMapper
+@using EM.Application.Models
 @inject NavigationManager NavigationManager
 @inject UserManager<ApplicationUser> UserManager 
 @attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}")]
@@ -14,55 +15,65 @@
     <Authorized Context="authContext">
         <button class="btn btn-primary" type="button" @onclick="Back">Back</button>
         
-        <p>Logged as: @authContext.User.Identity?.Name!</p>
         <PageTitle>Manager User @UserId</PageTitle>
 
         <h1>Manage User @User.User.Email</h1>
 
-        <div class="alert alert-success mt-3">
-            @StateMessage
-        </div>
+        @{
+            if (!string.IsNullOrEmpty(StateMessage))
+            {
+                <div class="alert alert-success mt-3">
+                    @StateMessage
+                </div>
+            }
+        }
         <EditForm Model="@UserFormModel" OnValidSubmit="HandleValidSubmit">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
             <div>
-                <label for="name">Name:</label>
-                <InputText id="username" @bind-Value="UserFormModel.Username" class="form-control"/>
+                <label for="username">Name:</label>
+                <InputText id="username" @bind-Value="@UserFormModel.Username" class="form-control"/>
             </div>
 
             <div>
                 <label for="email">Email:</label>
-                <InputText id="email" @bind-Value="UserFormModel.Email" type="email" class="form-control"/>
+                <InputText id="email" @bind-Value="@UserFormModel.Email" type="email" class="form-control"/>
             </div>
 
+            <div>
+                <label for="firstname">First name:</label>
+                <InputText id="firstname" @bind-Value="@UserFormModel.FirstName" type="text" class="form-control"/>
+            </div>
+
+            <div>
+                <label for="lastname">Last name:</label>
+                <InputText id="lastname" @bind-Value="@UserFormModel.LastName" type="text" class="form-control"/>
+            </div>
+
+            <div>
+                <label for="city">City:</label>
+                <InputText id="city" @bind-Value="@UserFormModel.City" type="text" class="form-control"/>
+            </div>
+
+            <div>
+                <label for="birthdate">Birthdate:</label>
+                <InputDate id="birthdate" @bind-Value="@UserFormModel.Birthday" class="form-control"/>
+            </div>
+            
             <button type="submit" class="btn btn-primary">Update</button>
         </EditForm>
     </Authorized>
 </AuthorizeView>
 
 @code {
-
-    public class UserModel
-    {
-        [Required(ErrorMessage = "Name is required.")]
-        public string Username { get; set; }
-
-        [Required(ErrorMessage = "Email is required.")]
-        [EmailAddress(ErrorMessage = "Invalid email address.")]
-        public string Email { get; set; }
-
-    // [Range(18, 99, ErrorMessage = "Age must be between 18 and 99.")]
-    // public int Age { get; set; }
-
-    //public List<string> Roles { get; set; }
-    }
-
     [Parameter]
     public string UserId { get; set; }
+    
+    [Inject] private IMapper Mapper { get; set; } // Inject AutoMapper
 
     private string StateMessage = "";
-    private UserModel UserFormModel;
+    private ApplicationUserViewModel UserFormModel = new ApplicationUserViewModel();
     private ApplicationUserDto User;
 
     public class ApplicationUserDto
@@ -70,19 +81,18 @@
         public ApplicationUser User { get; set; }
         public List<string> Roles { get; set; }
     }
-    
-    public void Back()
+
+    private void Back()
     {
         NavigationManager.NavigateTo("/users");
     }
     
     private async void HandleValidSubmit()
     {
-        User.User.Email = UserFormModel.Email;
-        User.User.UserName = UserFormModel.Username;
+        Mapper.Map(UserFormModel, User.User);
+
         await UserManager.UpdateAsync(User.User);
-        Console.WriteLine("Form Submitted Successfully!");
-        StateMessage = "Form Submitted Successfully!";
+        StateMessage = "User updated Successfully.";
         StateHasChanged();
     }
 
@@ -96,10 +106,6 @@
             Roles = roles.ToList()
         };
 
-        UserFormModel = new UserModel()
-        {
-            Email = user.Email ?? "",
-            Username = user.UserName ?? ""
-        };
+        Mapper.Map(User.User, UserFormModel);
     }
 }
