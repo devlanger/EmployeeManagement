@@ -7,7 +7,7 @@ namespace EM.Infrastructure.Data;
 public class ApplicationDbContext
     (DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
 {
-    public DbSet<Employee> Employees;
+    public DbSet<Employee> Employees { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
