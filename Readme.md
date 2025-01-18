@@ -1,3 +1,5 @@
+[![Demo Video](https://raw.githubusercontent.com/username/repository/branch/path/to/thumbnail.jpg)](https://raw.githubusercontent.com/devlanger/EmployeeManagement/main/Assets/demo.mp4)
+
 <h2>1. Entity Framework</h2>
 <h3>1.1 Adding Migration</h3>
 * Migrations are executed with code-first approach and will try to apply all migrations at the startup.
