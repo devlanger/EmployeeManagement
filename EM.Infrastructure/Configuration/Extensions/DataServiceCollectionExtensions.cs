@@ -17,4 +17,9 @@ public static class DataServiceCollectionExtensions
         services.AddScoped<IEmployeeService, EmployeeService>();
         services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
     }
+
+    public static void ConfigureCQRS(this IServiceCollection services, IConfiguration configuration)
+    {
+        //services.AddMediatR();
+    }
 }

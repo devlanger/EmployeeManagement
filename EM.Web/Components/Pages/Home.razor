@@ -1,7 +1,11 @@
 ﻿@page "/"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 
-<PageTitle>Home</PageTitle>
+<AuthorizeView>
+    <Authorized>
+        <PageTitle>Dashboard</PageTitle>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
+        <h1>Dashboard</h1>
+    </Authorized>
+</AuthorizeView>

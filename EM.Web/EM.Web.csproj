@@ -22,15 +22,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EM.Application.CQRS\EM.Application.CQRS.csproj" />
       <ProjectReference Include="..\EM.Application\EM.Application.csproj" />
       <ProjectReference Include="..\EM.Core\EM.Core.csproj" />
       <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Update="test_data.txt">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
+
 
 </Project>

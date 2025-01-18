@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Application", "EM.Applic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Infrastructure", "EM.Infrastructure\EM.Infrastructure.csproj", "{E18EE364-2300-4694-9F23-34B58C8AF29D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EM.Application.CQRS", "EM.Application.CQRS\EM.Application.CQRS.csproj", "{E68A132F-3AB0-461D-BCE8-A1ADFD760BD6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{E18EE364-2300-4694-9F23-34B58C8AF29D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E18EE364-2300-4694-9F23-34B58C8AF29D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E18EE364-2300-4694-9F23-34B58C8AF29D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E68A132F-3AB0-461D-BCE8-A1ADFD760BD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E68A132F-3AB0-461D-BCE8-A1ADFD760BD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E68A132F-3AB0-461D-BCE8-A1ADFD760BD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E68A132F-3AB0-461D-BCE8-A1ADFD760BD6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

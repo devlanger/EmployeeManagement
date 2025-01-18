@@ -5,3 +5,7 @@
 Add migration command:
 
 `dotnet ef migrations add AddEmployees -s ./EM.Web/EM.Web.csproj -p ./EF.Infrastructure/EM.Infrastructure.csproj -c ApplicationDbContex`
+
+<h2>Todo</h2>
+-[x] Add CQRS   
+-[ ] Add roles and authorization to add employees and give salaries
