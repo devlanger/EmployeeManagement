@@ -1,0 +1,78 @@
+﻿@page "/users"
+@using EM.Core.Models
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Identity
+@using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
+@inject UserManager<ApplicationUser> UserManager 
+@attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}")]
+@rendermode InteractiveServer
+
+<AuthorizeView>
+    <p>Logged as: @context.User.Identity?.Name!</p>
+    <PageTitle>Users</PageTitle>
+
+    <h1>Users</h1>
+
+    <p>This component demonstrates showing data.</p>
+
+    @if (users == null)
+    {
+        <p>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var user in users)
+            {
+                <tr>
+                    <td>@user.User.Id</td>
+                    <td>@user.User.UserName</td>
+                    <td>@user.User.Email</td>
+                    <td>@{ string.Join(",", @user.Roles); } </td>
+                    <td>
+                        <a href="users/@user.User.Id">Manage</a>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+</AuthorizeView>
+
+@code {
+    private List<ApplicationUserDto> users;
+
+    public class ApplicationUserDto
+    {
+        public ApplicationUser User { get; set; }
+        public List<string> Roles { get; set; }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        users = new List<ApplicationUserDto>();
+        foreach (var user in UserManager.Users)
+        {
+            var roles = await UserManager.GetRolesAsync(user);
+            var x = new ApplicationUserDto()
+            {
+                User = user,
+                Roles = roles.ToList()
+            };
+            users.Add(x);
+        }
+    }
+}

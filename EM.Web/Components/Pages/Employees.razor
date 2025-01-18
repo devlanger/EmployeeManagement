@@ -2,12 +2,13 @@
 @using EM.Application.Services.Abstract
 @using EM.Core.Models
 @using EM.Application.Abstract.Services
+@using EM.Infrastructure.Data
 @using Microsoft.AspNetCore.Authorization
-@inject IDataProvider<Employee> DataProvider
 @inject IBonusService BonusService;
 @inject IEmployeeService EmployeeService;
-@inject HttpClient Http
-@attribute [Authorize]
+@inject IDataProvider<Employee> DataProvider;
+@inject IHttpClientFactory HttpClientFactory
+@attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}, {IdentityConstants.EMPLOYEE_ROLE_NAME}")]
 @rendermode InteractiveServer
 
 <AuthorizeView>
@@ -26,24 +27,21 @@
     }
     else
     {
+        <div>
+            <button @onclick="GiveBonusToLowestSalaryMember">Give Bonus to lowest salary member</button>
+            <button @onclick="AddEmployee">Add Employee</button>
+        </div>
+        
         <table class="table">
             <thead>
             <tr>
                 <th>Id</th>
                 <th>Personal Id Number</th>
                 <th>Salary</th>
-                <th></th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            <ul>
-                <li>
-                    <button @onclick="GiveBonusToLowestSalaryMember">Give Bonus to lowest salary member</button>
-                </li>
-                <li>
-                    <a @onclick="AddEmployee">Add Employee</a>
-                </li>
-            </ul>
 
             @foreach (var employee in _employees)
             {
@@ -66,7 +64,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var e = await Http.GetFromJsonAsync<List<Employee>>("api/employee");
+        var client = HttpClientFactory.CreateClient();
+        var e = await client.GetFromJsonAsync<List<Employee>>("http://localhost:5054/api/employee");
         _employees = e?.ToArray();
     }
 
@@ -74,9 +73,12 @@
     {
         var employee = await EmployeeService.GetEmployeeWithSmallestSalaryAsync();
         BonusService.GiveBonus(employee, 0.2m);
+        //var client = HttpClientFactory.CreateClient();
 
         if (_employees != null)
             await DataProvider.SaveAllAsync(_employees);
+        
+        //await client.PutAsJsonAsync<List<Employee>>("http://localhost:5054/api/employee");
     }
 
     private void GiveBonus(Employee employee)

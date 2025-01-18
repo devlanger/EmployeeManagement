@@ -4,7 +4,7 @@
 
 Add migration command:
 
-`dotnet ef migrations add AddEmployees -s ./EM.Web/EM.Web.csproj -p ./EF.Infrastructure/EM.Infrastructure.csproj -c ApplicationDbContex`
+`dotnet ef migrations add AddEmployees -s ./EM.Web/EM.Web.csproj -p ./EM.Infrastructure/EM.Infrastructure.csproj -c ApplicationDbContext`
 
 <h2>Todo</h2>
 -[x] Add CQRS   

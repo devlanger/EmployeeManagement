@@ -16,7 +16,12 @@ public static class SeedData
         
         await context.Database.EnsureCreatedAsync();
 
-        var roles = new[] { "Admin", "User" };
+        var roles = new[] 
+        { 
+            IdentityConstants.ADMIN_ROLE_NAME, 
+            IdentityConstants.EMPLOYEE_ROLE_NAME 
+        };
+        
         foreach (var role in roles)
         {
             var roleExist = await roleManager.RoleExistsAsync(role);
@@ -29,22 +34,25 @@ public static class SeedData
         var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
         if (adminUser == null)
         {
-            adminUser = new ApplicationUser { UserName = "admin@admin.com", Email = "admin@admin.com" };
-            var result = await userManager.CreateAsync(adminUser, "Test!123");
-            if (result.Succeeded)
-            {
-                await userManager.AddToRoleAsync(adminUser, "Admin");
-            }
+            adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com" };
+            await userManager.CreateAsync(adminUser, "Test!123");
+            await userManager.AddToRoleAsync(adminUser, IdentityConstants.ADMIN_ROLE_NAME);
         }
+        
+        var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com" };
+        await userManager.CreateAsync(employeeUser, "Test!123");
+        await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
 
         if (!context.Employees.Any())
         {
-            await context.Employees.AddAsync(new Employee()
+            var employees = new List<Employee>()
             {
-                PersonalIdNumber = "123123123",
-                Salary = 1230
-            });
-
+                new() { PersonalIdNumber = "123123123", Salary = 1230 },
+                new() { PersonalIdNumber = "039243234", Salary = 2730 },
+                new() { PersonalIdNumber = "336233134", Salary = 5405 },
+            };
+            
+            await context.Employees.AddRangeAsync(employees);
             await context.SaveChangesAsync();
         }
     }

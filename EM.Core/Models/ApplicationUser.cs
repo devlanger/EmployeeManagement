@@ -4,4 +4,5 @@ namespace EM.Core.Models;
 
 public class ApplicationUser : IdentityUser
 {
+    
 }

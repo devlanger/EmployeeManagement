@@ -1,4 +1,5 @@
-﻿using EM.Application.Abstract.Services;
+﻿using System.Reflection;
+using EM.Application.Abstract.Services;
 using EM.Application.Concrete.Services;
 using EM.Application.Services.Abstract;
 using EM.Core.Models;
@@ -18,8 +19,8 @@ public static class DataServiceCollectionExtensions
         services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
     }
 
-    public static void ConfigureCQRS(this IServiceCollection services, IConfiguration configuration)
+    public static void ConfigureCQRS(this IServiceCollection services)
     {
-        //services.AddMediatR();
+        services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
     }
 }
