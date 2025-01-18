@@ -3,7 +3,11 @@
 @using EM.Infrastructure.Data
 @attribute [Authorize(Roles = $"{IdentityConstants.TEAMS_VIEW_ROLE_NAME}")]
 
-<h3>Teams</h3>
+<AuthorizeView>
+    <Authorized>
+        <h3>Teams</h3>
+    </Authorized>
+</AuthorizeView>
 
 @code {
     
