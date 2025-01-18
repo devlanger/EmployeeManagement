@@ -1,4 +1,4 @@
-[![Demo Video](https://raw.githubusercontent.com/username/repository/branch/path/to/thumbnail.jpg)](https://raw.githubusercontent.com/devlanger/EmployeeManagement/main/Assets/demo.mp4)
+[![EM Demo](https://img.youtube.com/vi/dDwdu6Elq8c/0.jpg)](https://www.youtube.com/watch?v=dDwdu6Elq8c)
 
 <h2>1. Entity Framework</h2>
 <h3>1.1 Adding Migration</h3>
