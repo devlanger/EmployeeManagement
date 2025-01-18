@@ -330,3 +330,4 @@ ASALocalRun/
 .mfractor/
 
 *.db
+*.DS_Store
