@@ -16,13 +16,7 @@ public static class SeedData
         
         await context.Database.EnsureCreatedAsync();
 
-        var roles = new[] 
-        { 
-            IdentityConstants.ADMIN_ROLE_NAME, 
-            IdentityConstants.EMPLOYEE_ROLE_NAME 
-        };
-        
-        foreach (var role in roles)
+        foreach (var role in IdentityConstants.AllRoles)
         {
             var roleExist = await roleManager.RoleExistsAsync(role);
             if (!roleExist)
@@ -36,7 +30,11 @@ public static class SeedData
         {
             adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
             await userManager.CreateAsync(adminUser, "Test!123");
-            await userManager.AddToRoleAsync(adminUser, IdentityConstants.ADMIN_ROLE_NAME);
+            await userManager.AddToRolesAsync(adminUser, new []
+            {
+                IdentityConstants.ADMIN_ROLE_NAME,   
+                IdentityConstants.TEAMS_VIEW_ROLE_NAME,   
+            });
         }
         
         var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe"  };

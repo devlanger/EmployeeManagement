@@ -5,16 +5,20 @@
 @using Microsoft.EntityFrameworkCore
 @using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
 @using AutoMapper
+@using EM.Application.Abstract.Services
 @using EM.Application.Models
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using ValidationSummary = Microsoft.AspNetCore.Components.Forms.ValidationSummary
 @inject NavigationManager NavigationManager
 @inject UserManager<ApplicationUser> UserManager 
+@inject IRoleService RoleService 
 @attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}")]
 @rendermode InteractiveServer
 
 <AuthorizeView>
     <Authorized Context="authContext">
         <button class="btn btn-primary" type="button" @onclick="Back">Back</button>
-        
+
         <PageTitle>Manager User @UserId</PageTitle>
 
         <h1>Manage User @User.User.Email</h1>
@@ -31,6 +35,7 @@
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
+            <h3>Personal Details</h3>
             <div>
                 <label for="username">Name:</label>
                 <InputText id="username" @bind-Value="@UserFormModel.Username" class="form-control"/>
@@ -61,16 +66,25 @@
                 <InputDate id="birthdate" @bind-Value="@UserFormModel.Birthday" class="form-control"/>
             </div>
             
+            <h3>Roles</h3>
+            @foreach(var item in list)
+            {
+                <span>@item.Text</span><input type="checkbox" @bind="item.Selected" @onclick="(()=>UpdateSingleRole(item))" />
+            }
             <button type="submit" class="btn btn-primary">Update</button>
         </EditForm>
     </Authorized>
 </AuthorizeView>
 
 @code {
+
     [Parameter]
     public string UserId { get; set; }
-    
-    [Inject] private IMapper Mapper { get; set; } // Inject AutoMapper
+
+    [Inject]
+    private IMapper Mapper { get; set; } // Inject AutoMapper
+
+    MultiSelectList list;
 
     private string StateMessage = "";
     private ApplicationUserViewModel UserFormModel = new ApplicationUserViewModel();
@@ -86,18 +100,32 @@
     {
         NavigationManager.NavigateTo("/users");
     }
-    
+
     private async void HandleValidSubmit()
     {
         Mapper.Map(UserFormModel, User.User);
 
         await UserManager.UpdateAsync(User.User);
+        await RoleService.UpdateUserRolesAsync(User.User, UserFormModel.SelectedRoles.ToList());
         StateMessage = "User updated Successfully.";
         StateHasChanged();
     }
 
+    private void UpdateSingleRole(SelectListItem item)
+    {
+        if (!item.Selected)
+        {
+            UserFormModel.SelectedRoles.Add(item.Text);
+        }
+        else
+        {
+            UserFormModel.SelectedRoles.Remove(item.Text);
+        }
+    }
+    
     protected override async Task OnInitializedAsync()
     {
+        list = new MultiSelectList(IdentityConstants.AllRoles);
         var user = await UserManager.Users.FirstOrDefaultAsync(x => x.Id == UserId);
         var roles = await UserManager.GetRolesAsync(user);
         User = new ApplicationUserDto()
@@ -107,5 +135,11 @@
         };
 
         Mapper.Map(User.User, UserFormModel);
+        UserFormModel.SelectedRoles = roles.ToHashSet();
+
+        foreach (var item in list)
+        {
+            item.Selected = UserFormModel.SelectedRoles.Contains(item.Text);
+        }
     }
 }

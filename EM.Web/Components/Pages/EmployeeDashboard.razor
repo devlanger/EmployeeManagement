@@ -4,9 +4,6 @@
 @using EM.Application.Abstract.Services
 @using EM.Infrastructure.Data
 @using Microsoft.AspNetCore.Authorization
-@inject IDataProvider<Employee> DataProvider
-@inject IBonusService BonusService;
-@inject IEmployeeService EmployeeService;
 @inject IHttpClientFactory HttpClientFactory
 @attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}, {IdentityConstants.EMPLOYEE_ROLE_NAME}")]
 @rendermode InteractiveServer

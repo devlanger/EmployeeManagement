@@ -17,8 +17,9 @@ public static class DataServiceCollectionExtensions
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped<IBonusService, BonusService>();
         services.AddScoped<IEmployeeService, EmployeeService>();
-        services.AddAutoMapper(typeof(GlobalMappingProfile));
+        services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
+        services.AddAutoMapper(typeof(GlobalMappingProfile));
     }
 
     public static void ConfigureCQRS(this IServiceCollection services)
