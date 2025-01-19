@@ -16,26 +16,32 @@ public static class SeedData
         
         await context.Database.EnsureCreatedAsync();
 
-        foreach (var role in IdentityConstants.AllRoles)
+        if (!context.Roles.Any())
         {
-            var roleExist = await roleManager.RoleExistsAsync(role);
-            if (!roleExist)
+            foreach (var role in IdentityConstants.AllRoles)
             {
-                await roleManager.CreateAsync(new IdentityRole(role));
+                var roleExist = await roleManager.RoleExistsAsync(role);
+                if (!roleExist)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role));
+                }
             }
         }
         
-        var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
-        if (adminUser == null)
+        if (!context.Users.Any())
         {
-            adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
-            await userManager.CreateAsync(adminUser, "Test!123");
-            await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
-        }
+            var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
+                await userManager.CreateAsync(adminUser, "Test!123");
+                await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
+            }
         
-        var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe"  };
-        await userManager.CreateAsync(employeeUser, "Test!123");
-        await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
+            var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe"  };
+            await userManager.CreateAsync(employeeUser, "Test!123");
+            await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
+        }
 
         if (!context.Employees.Any())
         {
@@ -47,6 +53,18 @@ public static class SeedData
             };
             
             await context.Employees.AddRangeAsync(employees);
+            await context.SaveChangesAsync();
+        }
+
+        if (!context.Teams.Any())
+        {
+            var teams = new List<Team>()
+            {
+                new() { Name = "Team 1" },
+                new() { Name = "Team 2" },
+            };
+            
+            await context.Teams.AddRangeAsync(teams);
             await context.SaveChangesAsync();
         }
     }
