@@ -16,3 +16,6 @@ Add migration command:
 -[x] Add AutoMapper and use for View Model mappings
 -[x] Add roles and authorization to add employees and give salaries
 -[ ] Refresh roles after user update
+-[ ] Rewrite identity to mediator and api
+-[ ] Host application in docker container on GitHub pages
+-[ ] Use GitHub Actions to automatize deployment to pages
