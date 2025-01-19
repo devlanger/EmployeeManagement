@@ -1,4 +1,6 @@
+using EM.Application.Concrete;
 using EM.Core.Models;
+using EM.Infrastructure;
 using EM.Infrastructure.Configuration.Extensions;
 using EM.Infrastructure.Data;
 using Microsoft.AspNetCore.Components.Authorization;
@@ -52,6 +54,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options =>
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
 var app = builder.Build();
+
+app.UseMiddleware<RefreshClaimsMiddleware>();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

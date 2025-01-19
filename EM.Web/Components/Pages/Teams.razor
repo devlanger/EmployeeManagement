@@ -1,9 +1,7 @@
 @page "/Teams"
-@using Microsoft.AspNetCore.Authorization
 @using EM.Infrastructure.Data
-@attribute [Authorize(Roles = $"{IdentityConstants.TEAMS_VIEW_ROLE_NAME}")]
 
-<AuthorizeView>
+<AuthorizeView Roles="@IdentityConstants.TEAMS_VIEW_ROLE_NAME">
     <Authorized>
         <h3>Teams</h3>
     </Authorized>
