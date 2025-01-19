@@ -4,7 +4,7 @@ using EM.Infrastructure.Data;
 
 namespace EM.Infrastructure.DataProviders;
 
-public class SqlDataProvider : IDataProvider<Employee>
+public class SqlDataProvider : IDataProvider<ApplicationUser>
 {
     private readonly ApplicationDbContext _dbContext;
 
@@ -13,14 +13,14 @@ public class SqlDataProvider : IDataProvider<Employee>
         _dbContext = dbContext;
     }
     
-    public Task<IEnumerable<Employee>> GetAllAsync()
+    public Task<IEnumerable<ApplicationUser>> GetAllAsync()
     {
-        return Task.FromResult<IEnumerable<Employee>>(_dbContext.Employees);
+        return Task.FromResult<IEnumerable<ApplicationUser>>(_dbContext.Users);
     }
 
-    public async Task SaveAllAsync(IEnumerable<Employee> entities)
+    public async Task SaveAllAsync(IEnumerable<ApplicationUser> entities)
     {
-        _dbContext.Employees.UpdateRange(entities);
+        _dbContext.Users.UpdateRange(entities);
         await _dbContext.SaveChangesAsync();
     }
 }

@@ -1,13 +1,13 @@
 ﻿@page "/employees"
+@using EM.Application.Abstract.Services
 @using EM.Application.Services.Abstract
 @using EM.Core.Models
-@using EM.Application.Abstract.Services
-@using EM.Infrastructure.Data
 @using Microsoft.AspNetCore.Authorization
+@using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
 @inject IBonusService BonusService;
-@inject IEmployeeService EmployeeService;
-@inject IDataProvider<Employee> DataProvider;
+@inject IUserService UserService;
 @inject IHttpClientFactory HttpClientFactory
+@inject IDataProvider<ApplicationUser> DataProvider
 @attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}, {IdentityConstants.EMPLOYEE_ROLE_NAME}")]
 @rendermode InteractiveServer
 
@@ -26,7 +26,6 @@
     {
         <div>
             <button @onclick="GiveBonusToLowestSalaryMember">Give Bonus to lowest salary member</button>
-            <button @onclick="AddEmployee">Add Employee</button>
         </div>
         
         <table class="table">
@@ -57,18 +56,18 @@
 </AuthorizeView>
 
 @code {
-    private Employee[]? _employees;
+    private ApplicationUser[]? _employees;
 
     protected override async Task OnInitializedAsync()
     {
         var client = HttpClientFactory.CreateClient();
-        var e = await client.GetFromJsonAsync<List<Employee>>("http://localhost:5054/api/employee");
+        var e = await client.GetFromJsonAsync<List<ApplicationUser>>("http://localhost:5054/api/user");
         _employees = e?.ToArray();
     }
 
     private async void GiveBonusToLowestSalaryMember()
     {
-        var employee = await EmployeeService.GetEmployeeWithSmallestSalaryAsync();
+        var employee = await UserService.GetUserWithSmallestSalaryAsync();
         BonusService.GiveBonus(employee, 0.2m);
         //var client = HttpClientFactory.CreateClient();
 
@@ -78,7 +77,7 @@
         //await client.PutAsJsonAsync<List<Employee>>("http://localhost:5054/api/employee");
     }
 
-    private void GiveBonus(Employee employee)
+    private void GiveBonus(ApplicationUser employee)
     {
         BonusService.GiveBonus(employee, 0.2m);
 

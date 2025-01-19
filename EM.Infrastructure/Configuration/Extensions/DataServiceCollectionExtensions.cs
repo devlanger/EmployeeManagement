@@ -16,9 +16,9 @@ public static class DataServiceCollectionExtensions
     {
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped<IBonusService, BonusService>();
-        services.AddScoped<IEmployeeService, EmployeeService>();
+        services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
-        services.AddScoped<IDataProvider<Employee>, SqlDataProvider>();
+        services.AddScoped<IDataProvider<ApplicationUser>, SqlDataProvider>();
         services.AddAutoMapper(typeof(GlobalMappingProfile));
     }
 

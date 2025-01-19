@@ -4,5 +4,5 @@ namespace EM.Application.Abstract.Services;
 
 public interface IBonusService
 {
-    void GiveBonus(Employee employee, decimal amount);
+    void GiveBonus(ApplicationUser employee, decimal amount);
 }

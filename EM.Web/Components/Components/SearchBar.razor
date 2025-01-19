@@ -1,0 +1,61 @@
+@inject IHttpClientFactory HttpClientFactory
+
+<div>
+    <input type="text" class="form-control"
+           @oninput="OnInputChange"
+           placeholder="Search employees..."
+           value="@searchQuery" />
+
+    @if (searchResults?.Any() == true)
+    {
+        <ul class="list-group position-absolute">
+            @foreach (var result in searchResults)
+            {
+                <li class="list-group-item" @onclick="() => OnSelectSuggestion(result)">
+                    @result.FullName
+                </li>
+            }
+        </ul>
+    }
+</div>
+
+<style>
+    .position-absolute {
+        position: absolute;
+        z-index: 1000;
+        background-color: white;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+</style>
+
+@code {
+    private string searchQuery = string.Empty;
+    private List<SearchResult> searchResults = new();
+
+    private async Task OnInputChange(ChangeEventArgs e)
+    {
+        searchQuery = e.Value?.ToString() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(searchQuery))
+        {
+            searchResults.Clear();
+            return;
+        }
+
+        searchResults = await HttpClientFactory.CreateClient()
+            .GetFromJsonAsync<List<SearchResult>>($"http://localhost:5054/api/User/search?query={searchQuery}");
+    }
+
+    private void OnSelectSuggestion(SearchResult selected)
+    {
+        searchQuery = selected.FullName; // Optionally handle selection logic
+        searchResults.Clear();
+    }
+
+    public class SearchResult
+    {
+        public int Id { get; set; }
+        public string FullName { get; set; }
+    }
+}

@@ -1,7 +1,5 @@
 ﻿@page "/employees/dashboard"
-@using EM.Application.Services.Abstract
 @using EM.Core.Models
-@using EM.Application.Abstract.Services
 @using EM.Infrastructure.Data
 @using Microsoft.AspNetCore.Authorization
 @inject IHttpClientFactory HttpClientFactory
@@ -22,7 +20,7 @@
 </AuthorizeView>
 
 @code {
-    private Employee[]? _employees;
+    private ApplicationUser[]? _employees;
 
     protected override async Task OnInitializedAsync()
     {

@@ -43,19 +43,6 @@ public static class SeedData
             await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
         }
 
-        if (!context.Employees.Any())
-        {
-            var employees = new List<Employee>()
-            {
-                new() { PersonalIdNumber = "123123123", Salary = 1230 },
-                new() { PersonalIdNumber = "039243234", Salary = 2730 },
-                new() { PersonalIdNumber = "336233134", Salary = 5405 },
-            };
-            
-            await context.Employees.AddRangeAsync(employees);
-            await context.SaveChangesAsync();
-        }
-
         if (!context.Teams.Any())
         {
             var teams = new List<Team>()
