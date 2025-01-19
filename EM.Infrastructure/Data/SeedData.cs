@@ -30,11 +30,7 @@ public static class SeedData
         {
             adminUser = new ApplicationUser { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
             await userManager.CreateAsync(adminUser, "Test!123");
-            await userManager.AddToRolesAsync(adminUser, new []
-            {
-                IdentityConstants.ADMIN_ROLE_NAME,   
-                IdentityConstants.TEAMS_VIEW_ROLE_NAME,   
-            });
+            await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
         }
         
         var employeeUser = new ApplicationUser { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe"  };

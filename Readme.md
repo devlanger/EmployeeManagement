@@ -16,6 +16,8 @@ Add migration command:
 -[x] Add AutoMapper and use for View Model mappings
 -[x] Add roles and authorization to add employees and give salaries
 -[x] Add middleware to refresh roles claims after user update
+-[ ] Add team entity, list entities in teams razor page
+-[ ] Split roles and permissions
 -[ ] Rewrite identity to mediator and api
 -[ ] Host application in docker container on GitHub pages
 -[ ] Use GitHub Actions to automatize deployment to pages

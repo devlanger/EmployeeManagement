@@ -1,13 +1,11 @@
 ﻿@page "/users"
 @using EM.Core.Models
-@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Identity
 @using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
 @inject UserManager<ApplicationUser> UserManager 
-@attribute [Authorize(Roles = $"{IdentityConstants.ADMIN_ROLE_NAME}")]
 @rendermode InteractiveServer
 
-<AuthorizeView>
+<AuthorizeView Roles="@IdentityConstants.USERS_VIEW_ROLE_NAME">
     <PageTitle>Users</PageTitle>
 
     <h1>Users</h1>
@@ -38,9 +36,20 @@
                     <td>@user.User.Id</td>
                     <td>@user.User.UserName</td>
                     <td>@user.User.Email</td>
-                    <td>@{ string.Join(",", @user.Roles); } </td>
                     <td>
-                        <a href="users/@user.User.Id">Manage</a>
+                        @if (user.Roles != null && user.Roles.Any())
+                        {
+                            @string.Join(", ", user.Roles)
+                        }
+                        else
+                        {
+                            <span>No roles assigned</span>
+                        }
+                    </td>
+                    <td>
+                        <AuthorizeView Roles="@IdentityConstants.USERS_MANAGE_ROLE_NAME" Context="ManageUserContext">
+                            <a href="users/@user.User.Id">Manage</a>
+                        </AuthorizeView>
                     </td>
                 </tr>
             }
@@ -72,4 +81,5 @@
             users.Add(x);
         }
     }
+
 }
