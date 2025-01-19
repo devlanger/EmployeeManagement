@@ -1,3 +1,4 @@
+@using EM.Application.Models
 @inject IHttpClientFactory HttpClientFactory
 
 <div>
@@ -31,7 +32,7 @@
 
 @code {
     private string searchQuery = string.Empty;
-    private List<SearchResult> searchResults = new();
+    private List<UserSearchViewModel> searchResults = new();
 
     private async Task OnInputChange(ChangeEventArgs e)
     {
@@ -44,18 +45,12 @@
         }
 
         searchResults = await HttpClientFactory.CreateClient()
-            .GetFromJsonAsync<List<SearchResult>>($"http://localhost:5054/api/User/search?query={searchQuery}");
+            .GetFromJsonAsync<List<UserSearchViewModel>>($"http://localhost:5054/api/user/search?query={searchQuery}");
     }
 
-    private void OnSelectSuggestion(SearchResult selected)
+    private void OnSelectSuggestion(UserSearchViewModel selected)
     {
         searchQuery = selected.FullName; // Optionally handle selection logic
         searchResults.Clear();
-    }
-
-    public class SearchResult
-    {
-        public int Id { get; set; }
-        public string FullName { get; set; }
     }
 }

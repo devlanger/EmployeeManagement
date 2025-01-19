@@ -2,15 +2,16 @@ using EM.Application.Abstract.Services;
 using EM.Application.Models;
 using EM.Core.Models;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace EM.Application.CQRS.User.Queries.SearchUserQuery;
 
 public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerable<UserSearchViewModel>>
 {
-    private readonly IRepository<ApplicationUser> _employeeRepo;
+    private readonly UserManager<ApplicationUser> _employeeRepo;
 
-    public SearchUserQueryHandler(IRepository<ApplicationUser> employeeRepo)
+    public SearchUserQueryHandler(UserManager<ApplicationUser> employeeRepo)
     {
         _employeeRepo = employeeRepo;
     }
@@ -20,9 +21,12 @@ public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerab
         if (string.IsNullOrWhiteSpace(request.Query))
             return Enumerable.Empty<UserSearchViewModel>();
 
-        var suggestions = await _employeeRepo.Query()
-            .Where(e => e.FirstName.Contains(request.Query) || e.LastName.Contains(request.Query))
+        var lowerQuery = request.Query.ToLower();
+        
+        var suggestions = await _employeeRepo.Users
+            .Where(e => e.FirstName.ToLower().Contains(lowerQuery) || e.LastName.ToLower().Contains(lowerQuery))
             .Select(e => new UserSearchViewModel() { Id = e.Id, FullName = e.FirstName + " " + e.LastName })
+            .Take(10)
             .ToListAsync(cancellationToken: cancellationToken);
 
         return suggestions;

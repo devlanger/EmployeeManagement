@@ -1,14 +1,14 @@
-using EM.Application.Abstract.Services;
 using EM.Core.Models;
 using MediatR;
+using Microsoft.AspNetCore.Identity;
 
 namespace EM.Application.CQRS.User.Commands.AddUser;
 
 public class AddEmployeeCommandHandler : IRequestHandler<AddEmployeeCommand>
 {
-    private readonly IRepository<ApplicationUser> _employeeRepo;
+    private readonly UserManager<ApplicationUser> _employeeRepo;
 
-    public AddEmployeeCommandHandler(IRepository<ApplicationUser> employeeRepo)
+    public AddEmployeeCommandHandler(UserManager<ApplicationUser> employeeRepo)
     {
         _employeeRepo = employeeRepo;
     }
@@ -21,6 +21,6 @@ public class AddEmployeeCommandHandler : IRequestHandler<AddEmployeeCommand>
             Salary = request.Salary
         };
         
-        await _employeeRepo.AddAsync(newEmployee);
+        await _employeeRepo.CreateAsync(newEmployee);
     }
 }

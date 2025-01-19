@@ -1,12 +1,59 @@
 @page "/Teams"
 @using EM.Infrastructure.Data
+@using EM.Core.Models
+@using EM.Application.Models
 
 <AuthorizeView Roles="@IdentityConstants.TEAMS_VIEW_ROLE_NAME">
     <Authorized>
         <h3>Teams</h3>
+        
+    @if (_teams == null)
+    {
+        <p>
+            <em>Loading...</em>
+        </p>
+    }
+    else
+    {
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Members Count</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            @foreach (var employee in _teams)
+            {
+                <tr>
+                    <td>@employee.Id</td>
+                    <td>@employee.Name</td>
+                    <td>@employee.MembersCount</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" @onclick="() => { }">Manage</button>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+        
     </Authorized>
 </AuthorizeView>
 
 @code {
+    private TeamViewModel[]? _teams;
+
+    [Inject] 
+    private IHttpClientFactory httpClientFactory { get; set; }
     
+    protected override async Task OnInitializedAsync()
+    {
+        var client = httpClientFactory.CreateClient();
+        var e = await client.GetFromJsonAsync<List<TeamViewModel>>("http://localhost:5054/api/team");
+        _teams = e?.ToArray();
+    }
 }

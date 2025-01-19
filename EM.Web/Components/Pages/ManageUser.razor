@@ -62,6 +62,11 @@
             </div>
 
             <div>
+                <label for="team">Team Id:</label>
+                <InputNumber id="team" @bind-Value="@UserFormModel.TeamId" type="number" class="form-control"/>
+            </div>
+            
+            <div>
                 <label for="birthdate">Birthdate:</label>
                 <InputDate id="birthdate" @bind-Value="@UserFormModel.Birthday" class="form-control"/>
             </div>
@@ -82,7 +87,6 @@
 </AuthorizeView>
 
 @code {
-
     [Parameter]
     public string UserId { get; set; }
 

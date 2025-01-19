@@ -8,6 +8,7 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="..\EM.Application.CQRS\EM.Application.CQRS.csproj" />
       <ProjectReference Include="..\EM.Application\EM.Application.csproj" />
       <ProjectReference Include="..\EM.Core\EM.Core.csproj" />
     </ItemGroup>

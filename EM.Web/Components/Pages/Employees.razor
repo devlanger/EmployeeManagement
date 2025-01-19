@@ -25,7 +25,7 @@
     else
     {
         <div>
-            <button @onclick="GiveBonusToLowestSalaryMember">Give Bonus to lowest salary member</button>
+            <button @onclick="GiveBonusToLowestSalaryMember" type="button" class="btn btn-primary">Give Bonus to lowest salary member</button>
         </div>
         
         <table class="table">
@@ -33,6 +33,7 @@
             <tr>
                 <th>Id</th>
                 <th>Personal Id Number</th>
+                <th>Team</th>
                 <th>Salary</th>
                 <th>Actions</th>
             </tr>
@@ -44,9 +45,10 @@
                 <tr>
                     <td>@employee.Id</td>
                     <td>@employee.PersonalIdNumber</td>
+                    <td>@(employee.Team is null ? "Not in team." : employee.Team?.Name)</td>
                     <td>@employee.Salary</td>
                     <td>
-                        <button @onclick="() => GiveBonus(employee)">Give Bonus</button>
+                        <button type="button" class="btn btn-primary" @onclick="() => GiveBonus(employee)">Give Bonus</button>
                     </td>
                 </tr>
             }
@@ -84,9 +86,4 @@
         if (_employees != null)
             DataProvider.SaveAllAsync(_employees);
     }
-
-    private void AddEmployee()
-    {
-    }
-
 }

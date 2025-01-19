@@ -19,6 +19,8 @@ public class ApplicationUserViewModel
     public string LastName { get; set; }
         
     public string? City { get; set; }
+    
+    public int? TeamId { get; set; }
         
     public DateTimeOffset? Birthday { get; set; }
 

@@ -5,5 +5,5 @@ namespace EM.Application.CQRS.User.Queries.GetUserQuery;
 
 public class GetUserQuery : IRequest, IRequest<ApplicationUser>
 {
-    public int Id { get; set; }
+    public string Id { get; set; }
 }

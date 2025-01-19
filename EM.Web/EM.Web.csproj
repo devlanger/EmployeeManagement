@@ -26,6 +26,7 @@
       <ProjectReference Include="..\EM.Application\EM.Application.csproj" />
       <ProjectReference Include="..\EM.Core\EM.Core.csproj" />
       <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
+
     </ItemGroup>
 
 
