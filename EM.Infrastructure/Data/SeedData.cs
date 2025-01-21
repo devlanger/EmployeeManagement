@@ -27,34 +27,34 @@ public static class SeedData
                 }
             }
         }
-
-        var adminUser = await userManager.FindByEmailAsync("admin@admin.com");
-        if (adminUser == null)
-        {
-            adminUser = new ApplicationUser
-                { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe" };
-            await userManager.CreateAsync(adminUser, "Test!123");
-            await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
-        }
-
+        
         if (!context.Users.Any())
         {
+            var adminUser = await userManager.FindByEmailAsync("admin@em.com");
+            if (adminUser == null)
+            {
+                adminUser = new ApplicationUser
+                    { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe", Salary = 100};
+                await userManager.CreateAsync(adminUser, "Test!123");
+                await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
+            }
+
             var employeeUser = new ApplicationUser
-                { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Doe" };
+                { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Foe", Salary = 200};
             await userManager.CreateAsync(employeeUser, "Test!123");
             await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
-        }
 
-        if (!context.Teams.Any())
-        {
-            var teams = new List<Team>()
+            if (!context.Teams.Any())
             {
-                new() { Name = "Team 1", Members = new List<ApplicationUser>() { adminUser } },
-                new() { Name = "Team 2" },
-            };
+                var teams = new List<Team>()
+                {
+                    new() { Name = "Team 1" },
+                    new() { Name = "Team 2" },
+                };
 
-            await context.Teams.AddRangeAsync(teams);
-            await context.SaveChangesAsync();
+                await context.Teams.AddRangeAsync(teams);
+                await context.SaveChangesAsync();
+            }
         }
     }
 }
