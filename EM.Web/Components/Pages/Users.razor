@@ -50,7 +50,7 @@
                     </td>
                     <td>
                         <AuthorizeView Roles="@IdentityConstants.USERS_MANAGE_ROLE_NAME" Context="ManageUserContext">
-                            <a href="users/@user.User.Id">Manage</a>
+                            <a type="button" class="btn btn-primary" href="users/@user.User.Id">Manage</a>
                         </AuthorizeView>
                     </td>
                 </tr>
