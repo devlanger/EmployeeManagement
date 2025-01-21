@@ -1,0 +1,49 @@
+@page "/teams/{TeamId}"
+@using Microsoft.AspNetCore.Authorization
+@using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
+@using AutoMapper
+@using Microsoft.AspNetCore.Mvc.Rendering
+@inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = $"{IdentityConstants.TEAMS_MANAGE_ROLE_NAME}")]
+@rendermode InteractiveServer
+
+<AuthorizeView>
+    <Authorized Context="authContext">
+        <button class="btn btn-primary" type="button" @onclick="Back">Back</button>
+
+        <PageTitle>Manage Team @TeamId</PageTitle>
+
+        <h1>Manage Team @TeamId</h1>
+
+        @{
+            if (!string.IsNullOrEmpty(StateMessage))
+            {
+                <div class="alert alert-success mt-3">
+                    @StateMessage
+                </div>
+            }
+        }
+    </Authorized>
+</AuthorizeView>
+
+@code {
+    [Parameter]
+    public string TeamId { get; set; }
+
+    [Inject]
+    private IMapper Mapper { get; set; } // Inject AutoMapper
+
+    MultiSelectList list;
+
+    private string StateMessage = "";
+
+    private void Back()
+    {
+        NavigationManager.NavigateTo("/teams");
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.CompletedTask;
+    }
+}
