@@ -1,11 +1,99 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
+@using EM.Core.Models
 @attribute [Authorize]
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
 <AuthorizeView>
-    <Authorized>
-        <PageTitle>Dashboard</PageTitle>
+    <PageTitle>Dashboard</PageTitle>
 
-        <h1>Dashboard</h1>
-    </Authorized>
+    <h1>Dashboard</h1>
+
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Employees</h5>
+
+                    @if (_employees != null)
+                    {
+                        <p class="card-text">Employees amount: @_employees.Length</p>
+                        <a href="#" class="btn btn-primary">View Employees</a>
+                    }
+                    else
+                    {
+                        <div class="spinner-border" role="status"></div>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+
+                    <h5 class="card-title">Teams</h5>
+
+                    @if (_teams != null)
+                    {
+                        <p class="card-text">Teams amount: @_teams.Length</p>
+                        <a href="#" class="btn btn-primary">View Teams</a>
+                    }
+                    else
+                    {
+                        <div class="spinner-border" role="status"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </AuthorizeView>
+
+@code {
+    private ApplicationUser[]? _employees;
+    private Team[]? _teams;
+
+    [Inject]
+    private IHttpClientFactory HttpClientFactory { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await InvokeAsync(StateHasChanged);
+        await LoadDashboard();
+    }
+
+    private async Task RetrieveEmployeesData()
+    {
+        await Task.Delay(2000);
+        var client = HttpClientFactory.CreateClient();
+        var employees = await client.GetFromJsonAsync<List<ApplicationUser>>("http://localhost:5054/api/user");
+        _employees = employees?.ToArray();
+        await InvokeAsync(StateHasChanged);
+
+        Console.WriteLine("Retrieved employees");
+    }
+
+    private async Task RetrieveTeamsData()
+    {
+        await Task.Delay(1000);
+        var client = HttpClientFactory.CreateClient();
+        var teams = await client.GetFromJsonAsync<List<Team>>("http://localhost:5054/api/team");
+        _teams = teams?.ToArray();
+
+        await InvokeAsync(StateHasChanged);
+
+        Console.WriteLine("Retrieved teams");
+    }
+
+    private async Task LoadDashboard()
+    {
+        var dashboardTasks = new List<Task>()
+        {
+            RetrieveEmployeesData(),
+            RetrieveTeamsData(),
+            RetrieveEmployeesData(),
+        };
+
+        await Task.WhenAll(dashboardTasks);
+    }
+
+}
