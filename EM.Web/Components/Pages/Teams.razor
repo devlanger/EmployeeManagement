@@ -1,6 +1,5 @@
 @page "/Teams"
 @using EM.Infrastructure.Data
-@using EM.Core.Models
 @using EM.Application.Models
 
 <AuthorizeView Roles="@IdentityConstants.TEAMS_VIEW_ROLE_NAME">
@@ -26,14 +25,16 @@
             </thead>
             <tbody>
 
-            @foreach (var employee in _teams)
+            @foreach (var team in _teams)
             {
                 <tr>
-                    <td>@employee.Id</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.MembersCount</td>
+                    <td>@team.Id</td>
+                    <td>@team.Name</td>
+                    <td>@team.MembersCount</td>
                     <td>
-                        <button type="button" class="btn btn-primary" @onclick="() => { }">Manage</button>
+                        <AuthorizeView Roles="@IdentityConstants.TEAMS_MANAGE_ROLE_NAME" Context="ManageTeamContext">
+                            <a type="button" class="btn btn-primary" href="teams/@team.Id">Manage</a>
+                        </AuthorizeView>
                     </td>
                 </tr>
             }
