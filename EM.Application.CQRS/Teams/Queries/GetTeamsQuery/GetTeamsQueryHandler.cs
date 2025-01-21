@@ -19,6 +19,7 @@ public class GetTeamsQueryHandler : IRequestHandler<GetTeamsQuery, IEnumerable<T
     {
         var x = await _teamRepo.Query()
             .Select(x => new TeamViewModel(){ Id = x.Id.GetValueOrDefault(), Name = x.Name, MembersCount = x.Members.Count})
+            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
         
         return x;

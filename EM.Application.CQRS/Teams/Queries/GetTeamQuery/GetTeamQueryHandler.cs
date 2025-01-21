@@ -17,6 +17,10 @@ public class GetTeamQueryHandler : IRequestHandler<GetTeamQuery, TeamViewModel>
     public async Task<TeamViewModel> Handle(GetTeamQuery request, CancellationToken cancellationToken)
     {
         var x = await _teamRepo.GetByIdAsync(request.Id);
+        
+        if (x == null)
+            throw new Exception($"Team with id {request.Id} not found ");
+        
         return new TeamViewModel()
         {
             Id = x.Id.GetValueOrDefault(),
