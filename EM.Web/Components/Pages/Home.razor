@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using Microsoft.AspNetCore.Authorization
 @using EM.Core.Models
+@using EM.Application.Models
 @attribute [Authorize]
 @rendermode @(new InteractiveServerRenderMode(prerender: false))
 
@@ -18,7 +19,9 @@
                     @if (_employees != null)
                     {
                         <p class="card-text">Employees amount: @_employees.Length</p>
-                        <a href="#" class="btn btn-primary">View Employees</a>
+                        <p class="card-text">Employees in team: @_employees.Count(x => x.TeamId.HasValue)</p>
+                        <p class="card-text">Employees without team: @_employees.Count(x => !x.TeamId.HasValue)</p>
+                        <a href="employees" class="btn btn-primary">View Employees</a>
                     }
                     else
                     {
@@ -36,7 +39,8 @@
                     @if (_teams != null)
                     {
                         <p class="card-text">Teams amount: @_teams.Length</p>
-                        <a href="#" class="btn btn-primary">View Teams</a>
+                        <p class="card-text">Empty teams: @_teams.Count(x => x.MembersCount == 0)</p>
+                        <a href="/teams" class="btn btn-primary">View Teams</a>
                     }
                     else
                     {
@@ -50,7 +54,7 @@
 
 @code {
     private ApplicationUser[]? _employees;
-    private Team[]? _teams;
+    private TeamViewModel[]? _teams;
 
     [Inject]
     private IHttpClientFactory HttpClientFactory { get; set; }
@@ -63,7 +67,7 @@
 
     private async Task RetrieveEmployeesData()
     {
-        await Task.Delay(2000);
+        await Task.Delay(100); //Simulate delay
         var client = HttpClientFactory.CreateClient();
         var employees = await client.GetFromJsonAsync<List<ApplicationUser>>("http://localhost:5054/api/user");
         _employees = employees?.ToArray();
@@ -74,9 +78,9 @@
 
     private async Task RetrieveTeamsData()
     {
-        await Task.Delay(1000);
+        await Task.Delay(200); //Simulate delay
         var client = HttpClientFactory.CreateClient();
-        var teams = await client.GetFromJsonAsync<List<Team>>("http://localhost:5054/api/team");
+        var teams = await client.GetFromJsonAsync<List<TeamViewModel>>("http://localhost:5054/api/team");
         _teams = teams?.ToArray();
 
         await InvokeAsync(StateHasChanged);
@@ -89,8 +93,7 @@
         var dashboardTasks = new List<Task>()
         {
             RetrieveEmployeesData(),
-            RetrieveTeamsData(),
-            RetrieveEmployeesData(),
+            RetrieveTeamsData()
         };
 
         await Task.WhenAll(dashboardTasks);
