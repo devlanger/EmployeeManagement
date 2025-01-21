@@ -1,15 +1,16 @@
 using EM.Application.Abstract.Services;
 using EM.Application.Models;
+using EM.Core.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace EM.Application.CQRS.Team.Queries.GetTeamsQuery;
+namespace EM.Application.CQRS.Teams.Queries.GetTeamsQuery;
 
 public class GetTeamsQueryHandler : IRequestHandler<GetTeamsQuery, IEnumerable<TeamViewModel>>
 {
-    private readonly IRepository<Core.Models.Team> _teamRepo;
+    private readonly IRepository<Team> _teamRepo;
 
-    public GetTeamsQueryHandler(IRepository<Core.Models.Team> teamRepo)
+    public GetTeamsQueryHandler(IRepository<Team> teamRepo)
     {
         _teamRepo = teamRepo;
     }

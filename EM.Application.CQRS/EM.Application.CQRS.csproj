@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="User\Commands\" />
+      <Folder Include="Users\Commands\" />
     </ItemGroup>
 
     <ItemGroup>
