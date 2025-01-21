@@ -1,11 +1,11 @@
-@page "/teams/{TeamId}"
+@page "/teams/{TeamId:int}"
 @using Microsoft.AspNetCore.Authorization
 @using IdentityConstants = EM.Infrastructure.Data.IdentityConstants
 @using AutoMapper
 @using Microsoft.AspNetCore.Mvc.Rendering
 @inject NavigationManager NavigationManager
 @attribute [Authorize(Roles = $"{IdentityConstants.TEAMS_MANAGE_ROLE_NAME}")]
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(prerender: false))
 
 <AuthorizeView>
     <Authorized Context="authContext">
@@ -15,6 +15,19 @@
 
         <h1>Manage Team @TeamId</h1>
 
+        @if (TeamMembers != null)
+        {
+            <p>Members Count: @TeamMembers.Count</p>
+            <p>Members list:</p>
+            foreach (var member in TeamMembers)
+            {
+                <a href="/employees" class="btn btn-primary">@member</a>
+            }
+        }
+        else
+        {
+            <div class="spinner-border" role="status"></div>
+        }
         @{
             if (!string.IsNullOrEmpty(StateMessage))
             {
@@ -28,10 +41,15 @@
 
 @code {
     [Parameter]
-    public string TeamId { get; set; }
+    public int TeamId { get; set; }
 
     [Inject]
-    private IMapper Mapper { get; set; } // Inject AutoMapper
+    private IMapper Mapper { get; set; }
+    
+    private List<string>? TeamMembers { get; set; }
+
+    [Inject]
+    private IHttpClientFactory HttpClientFactory { get; set; }
 
     MultiSelectList list;
 
@@ -44,6 +62,8 @@
     
     protected override async Task OnInitializedAsync()
     {
-        await Task.CompletedTask;
+        var x = await HttpClientFactory.CreateClient()
+            .GetFromJsonAsync<IEnumerable<string>>($"http://localhost:5054/api/Team/members/{TeamId}");
+        TeamMembers = x?.ToList();
     }
 }

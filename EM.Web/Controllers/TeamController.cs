@@ -1,8 +1,7 @@
+using EM.Application.CQRS.Teams.Queries.GetTeamMembersQuery;
 using EM.Application.CQRS.Teams.Queries.GetTeamQuery;
 using EM.Application.CQRS.Teams.Queries.GetTeamsQuery;
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
-using EM.Application.Services.Abstract;
-using EM.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,6 +9,7 @@ namespace EM.Web.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
+//[Authorize(Roles = $"{IdentityConstants.TEAMS_VIEW_ROLE_NAME}")]
 public class TeamController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -37,7 +37,7 @@ public class TeamController : ControllerBase
     [HttpGet("members/{id}")]
     public async Task<IActionResult> GetTeamMembers(int id)
     {
-        var e = await _mediator.Send(new GetTeamQuery(id));
+        var e = await _mediator.Send(new GetTeamMembersQuery(id));
         return Ok(e);
     }
     
