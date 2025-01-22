@@ -3,7 +3,7 @@ using AutoMapper.Configuration.Annotations;
 
 namespace EM.Application.Models;
 
-public class ApplicationUserViewModel
+public class ApplicationUserEditViewModel
 {
     [Required(ErrorMessage = "Name is required.")]
     public string Username { get; set; }

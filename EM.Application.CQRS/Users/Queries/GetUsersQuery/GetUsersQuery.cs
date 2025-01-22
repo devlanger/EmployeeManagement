@@ -1,8 +1,8 @@
-using EM.Core.Models;
+using EM.Application.Models;
 using MediatR;
 
-namespace EM.Application.CQRS.User.Queries.GetUsersQuery;
+namespace EM.Application.CQRS.Users.Queries.GetUsersQuery;
 
-public class GetUsersQuery : IRequest<IEnumerable<ApplicationUser>>
+public class GetUsersQuery : IRequest<IEnumerable<ApplicationUserResponseModel>>
 {
 }

@@ -1,5 +1,5 @@
-using EM.Application.CQRS.User.Queries.GetUsersQuery;
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
+using EM.Application.CQRS.Users.Queries.GetUsersQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 

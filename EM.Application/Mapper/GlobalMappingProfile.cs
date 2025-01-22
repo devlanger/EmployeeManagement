@@ -8,6 +8,7 @@ public class GlobalMappingProfile : Profile
 {
     public GlobalMappingProfile()
     {
-        CreateMap<ApplicationUser, ApplicationUserViewModel>().ReverseMap();
+        CreateMap<ApplicationUser, ApplicationUserEditViewModel>().ReverseMap();
+        CreateMap<ApplicationUser, ApplicationUserResponseModel>().ReverseMap();
     }
 }

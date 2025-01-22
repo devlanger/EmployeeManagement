@@ -31,44 +31,44 @@
                 </div>
             }
         }
-        <EditForm Model="@UserFormModel" OnValidSubmit="HandleValidSubmit">
+        <EditForm Model="@_userEditFormModel" OnValidSubmit="HandleValidSubmit">
             <DataAnnotationsValidator/>
             <ValidationSummary/>
 
             <h3>Personal Details</h3>
             <div>
                 <label for="username">Name:</label>
-                <InputText id="username" @bind-Value="@UserFormModel.Username" class="form-control"/>
+                <InputText id="username" @bind-Value="@_userEditFormModel.Username" class="form-control"/>
             </div>
 
             <div>
                 <label for="email">Email:</label>
-                <InputText id="email" @bind-Value="@UserFormModel.Email" type="email" class="form-control"/>
+                <InputText id="email" @bind-Value="@_userEditFormModel.Email" type="email" class="form-control"/>
             </div>
 
             <div>
                 <label for="firstname">First name:</label>
-                <InputText id="firstname" @bind-Value="@UserFormModel.FirstName" type="text" class="form-control"/>
+                <InputText id="firstname" @bind-Value="@_userEditFormModel.FirstName" type="text" class="form-control"/>
             </div>
 
             <div>
                 <label for="lastname">Last name:</label>
-                <InputText id="lastname" @bind-Value="@UserFormModel.LastName" type="text" class="form-control"/>
+                <InputText id="lastname" @bind-Value="@_userEditFormModel.LastName" type="text" class="form-control"/>
             </div>
 
             <div>
                 <label for="city">City:</label>
-                <InputText id="city" @bind-Value="@UserFormModel.City" type="text" class="form-control"/>
+                <InputText id="city" @bind-Value="@_userEditFormModel.City" type="text" class="form-control"/>
             </div>
 
             <div>
                 <label for="team">Team Id:</label>
-                <InputNumber id="team" @bind-Value="@UserFormModel.TeamId" type="number" class="form-control"/>
+                <InputNumber id="team" @bind-Value="@_userEditFormModel.TeamId" type="number" class="form-control"/>
             </div>
             
             <div>
                 <label for="birthdate">Birthdate:</label>
-                <InputDate id="birthdate" @bind-Value="@UserFormModel.Birthday" class="form-control"/>
+                <InputDate id="birthdate" @bind-Value="@_userEditFormModel.Birthday" class="form-control"/>
             </div>
             
             <h3>Roles</h3>
@@ -96,7 +96,7 @@
     MultiSelectList list;
 
     private string StateMessage = "";
-    private ApplicationUserViewModel UserFormModel = new ApplicationUserViewModel();
+    private ApplicationUserEditViewModel _userEditFormModel = new ApplicationUserEditViewModel();
     private ApplicationUserDto User;
 
     public class ApplicationUserDto
@@ -112,10 +112,10 @@
 
     private async void HandleValidSubmit()
     {
-        Mapper.Map(UserFormModel, User.User);
+        Mapper.Map(_userEditFormModel, User.User);
 
         await UserManager.UpdateAsync(User.User);
-        await RoleService.UpdateUserRolesAsync(User.User, UserFormModel.SelectedRoles.ToList());
+        await RoleService.UpdateUserRolesAsync(User.User, _userEditFormModel.SelectedRoles.ToList());
         StateMessage = "User updated Successfully.";
         StateHasChanged();
     }
@@ -124,11 +124,11 @@
     {
         if (!item.Selected)
         {
-            UserFormModel.SelectedRoles.Add(item.Text);
+            _userEditFormModel.SelectedRoles.Add(item.Text);
         }
         else
         {
-            UserFormModel.SelectedRoles.Remove(item.Text);
+            _userEditFormModel.SelectedRoles.Remove(item.Text);
         }
     }
     
@@ -143,12 +143,12 @@
             Roles = roles.ToList()
         };
 
-        Mapper.Map(User.User, UserFormModel);
-        UserFormModel.SelectedRoles = roles.ToHashSet();
+        Mapper.Map(User.User, _userEditFormModel);
+        _userEditFormModel.SelectedRoles = roles.ToHashSet();
 
         foreach (var item in list)
         {
-            item.Selected = UserFormModel.SelectedRoles.Contains(item.Text);
+            item.Selected = _userEditFormModel.SelectedRoles.Contains(item.Text);
         }
     }
 }
