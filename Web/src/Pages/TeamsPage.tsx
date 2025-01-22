@@ -35,7 +35,7 @@ const TeamsPage = () => {
         </table>;
 
     async function populateTeamsData() {
-        const response = await fetch('http://localhost:5054/api/team');
+        const response = await fetch('api/team');
         const data = await response.json();
         console.log(data);
         setTeams(data);

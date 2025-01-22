@@ -18,6 +18,7 @@ public static class DataServiceCollectionExtensions
         services.Configure<TxtDataSettings>(configuration.GetSection("TxtDataSettings"));
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         services.AddScoped<IBonusService, BonusService>();
+        services.AddScoped<ISalaryService, SalaryService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
         services.AddScoped<IDataProvider<ApplicationUser>, SqlDataProvider>();

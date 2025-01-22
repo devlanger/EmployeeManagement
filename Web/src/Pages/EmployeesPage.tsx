@@ -21,8 +21,9 @@ const EmployeesPage = () => {
             <thead>
             <tr>
                 <th>Id</th>
-                <th>Username</th>
                 <th>First Name</th>
+                <th>Last Name</th>
+                <th>Salary</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -32,10 +33,11 @@ const EmployeesPage = () => {
                     <td>{employee.id}</td>
                     <td>{employee.firstName}</td>
                     <td>{employee.lastName}</td>
+                    <td>{employee.salary}</td>
                     <td>
-                        <ManageUserDropdown>
-
-                        </ManageUserDropdown>
+                        <ManageUserDropdown 
+                            employeeId={employee.id}
+                            refresh={populateEmployeesData}/>
                     </td>
                 </tr>
             )}
@@ -43,7 +45,7 @@ const EmployeesPage = () => {
         </table>;
 
     async function populateEmployeesData() {
-        const response = await fetch('http://localhost:5054/api/user');
+        const response = await fetch('api/user');
         const data = await response.json();
         console.log(data);
         setEmployees(data);
