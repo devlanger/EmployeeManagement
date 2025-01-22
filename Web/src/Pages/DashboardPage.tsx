@@ -37,18 +37,18 @@ const DashboardPage = () => {
                     <Col>
                         <Card>
                             <Card.Body>
-                                <p>Employees Salary</p>
+                                <p>Employees Salary Chart</p>
                                 {content}
                             </Card.Body>
                         </Card>
                     </Col>
                     <Col>
-                        <Card>
-                            <Card.Body>
-                                <p>Employees Salary</p>
-                                {content}
-                            </Card.Body>
-                        </Card>
+                        {/*<Card>*/}
+                        {/*    <Card.Body>*/}
+                        {/*        <p>Employees Salary</p>*/}
+                        {/*        {content}*/}
+                        {/*    </Card.Body>*/}
+                        {/*</Card>*/}
                     </Col>
                 </Row>
             </Container>

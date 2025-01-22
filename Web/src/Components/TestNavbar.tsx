@@ -1,16 +1,20 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import {Button} from "react-bootstrap";
+import { useAuth } from './auth-context';
+import LogoutButton from './LogoutButton';
 
 function TestNavbar() {
+    const { token } = useAuth();
+
     return (
         <Navbar className="bg-body-tertiary">
             <Container>
-                <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
-                <Navbar.Toggle/>
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>
-                        Signed in as: <a href="#login">Mark Otto</a>
+                    <Navbar.Text className="px-3">
+                        Signed in as: <a href="/login">Admin</a>
                     </Navbar.Text>
+                    <LogoutButton />
                 </Navbar.Collapse>
             </Container>
         </Navbar>

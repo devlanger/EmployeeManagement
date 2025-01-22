@@ -1,3 +1,4 @@
+using System.Text;
 using EM.Application.Concrete;
 using EM.Core.Models;
 using EM.Infrastructure;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EM.Web.Components;
 using EM.Web.Components.Account;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using IdentityConstants = Microsoft.AspNetCore.Identity.IdentityConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -50,6 +52,25 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => { options.SignIn.Re
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddAuthentication(options =>
+    {
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration["Jwt:Issuer"],
+            ValidAudience = builder.Configuration["Jwt:Audience"],
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:SecretKey"]))
+        };
+    });
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReactApp", policy =>
@@ -88,6 +109,10 @@ using (var scope = app.Services.CreateScope())
     var services = scope.ServiceProvider;
     await SeedData.Initialize(services);
 }
+
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
