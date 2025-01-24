@@ -1,11 +1,12 @@
 import React from 'react';
 import {useEffect, useState} from 'react';
-import ManageUserDropdown from '../Components/ManageUserDropdown';
+import ManageEmployeeDropdown from "../Components/ManageEmployeeDropdown";
 
 interface Employee {
     id: string;
     firstName: string;
     lastName: string;
+    salary: string;
 }
 
 const EmployeesPage = () => {
@@ -35,7 +36,7 @@ const EmployeesPage = () => {
                     <td>{employee.lastName}</td>
                     <td>{employee.salary}</td>
                     <td>
-                        <ManageUserDropdown 
+                        <ManageEmployeeDropdown 
                             employeeId={employee.id}
                             refresh={populateEmployeesData}/>
                     </td>

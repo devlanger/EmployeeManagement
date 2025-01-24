@@ -3,27 +3,10 @@ import axios from 'axios';
 import * as React from "react";
 
 interface ManageUserDropdownProps {
-    employeeId: string;
-    refresh: () => void; // Callback to refresh employee list
+    userId: string;
 }
 
-const ManageUserDropdown: React.FC<ManageUserDropdownProps> = ({employeeId, refresh}) => {
-    const handleGiveBonus = async () => {
-        try {
-            // Example API call
-            const response = await axios.post('api/Salary/' + employeeId, {});
-
-            if (response.status === 200) {
-                await refresh();
-            } else {
-                alert('Failed to give bonus. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error giving bonus:', error);
-            alert('An error occurred while giving the bonus.');
-        }
-    };
-
+const ManageUserDropdown: React.FC<ManageUserDropdownProps> = ({userId}) => {
     return (
         <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">
@@ -31,8 +14,7 @@ const ManageUserDropdown: React.FC<ManageUserDropdownProps> = ({employeeId, refr
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-                <Dropdown.Item onClick={() => handleGiveBonus(employeeId)}>Give bonus</Dropdown.Item>
-                <Dropdown.Item href="#/action-2">Remove</Dropdown.Item>
+                <Dropdown.Item href={`/users/${userId}`}>Manage</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
     );

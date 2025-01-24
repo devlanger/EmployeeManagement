@@ -1,9 +1,9 @@
-using EM.Core.Models;
+using EM.Application.Models;
 using MediatR;
 
-namespace EM.Application.CQRS.User.Queries.GetUserQuery;
+namespace EM.Application.CQRS.Users.Queries.GetUserQuery;
 
-public class GetUserQuery : IRequest, IRequest<ApplicationUser>
+public class GetUserQuery : IRequest<ApplicationUserResponseModel>
 {
     public string Id { get; set; }
 }

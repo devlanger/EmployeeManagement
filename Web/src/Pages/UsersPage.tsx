@@ -2,20 +2,20 @@ import React from 'react';
 import {useEffect, useState} from 'react';
 import ManageUserDropdown from '../Components/ManageUserDropdown';
 
-interface Employee {
+interface User {
     id: string;
     firstName: string;
     lastName: string;
 }
 
 const UsersPage = () => {
-    const [employees, setEmployees] = useState<Employee[]>();
+    const [users, setUsers] = useState<User[]>();
 
     useEffect(() => {
-        populateEmployeesData();
+        populateUsersData();
     }, []);
 
-    const contents = employees === undefined
+    const contents = users === undefined
         ? <p><em>Loading...</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
@@ -23,41 +23,38 @@ const UsersPage = () => {
                 <th>Id</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Salary</th>
                 <th>Actions</th>
             </tr>
             </thead>
             <tbody>
-            {employees.map(employee =>
-                <tr key={employee.id}>
-                    <td>{employee.id}</td>
-                    <td>{employee.firstName}</td>
-                    <td>{employee.lastName}</td>
-                    <td>{employee.salary}</td>
+            {users.map(user =>
+                <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.firstName}</td>
+                    <td>{user.lastName}</td>
                     <td>
                         <ManageUserDropdown 
-                            employeeId={employee.id}
-                            refresh={populateEmployeesData}/>
+                            userId={user.id}/>
                     </td>
                 </tr>
             )}
             </tbody>
         </table>;
 
-    async function populateEmployeesData() {
+    async function populateUsersData() {
         const response = await fetch('api/user');
         const data = await response.json();
         console.log(data);
-        setEmployees(data);
+        setUsers(data);
     }
     
     return (
         <div>
-            <h1 id="tableLabel">Employees</h1>
+            <h1 id="tableLabel">Users</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
         </div>
     );
 };
 
-export default EmployeesPage;
+export default UsersPage;

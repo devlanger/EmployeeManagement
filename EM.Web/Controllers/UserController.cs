@@ -1,4 +1,5 @@
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
+using EM.Application.CQRS.Users.Queries.GetUserQuery;
 using EM.Application.CQRS.Users.Queries.GetUsersQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -15,6 +16,28 @@ public class UserController(ISender mediator) : ControllerBase
         var e = await mediator.Send(new GetUsersQuery());
         return Ok(e);
     }
+    
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> Get(string userId)
+    {
+        var e = await mediator.Send(new GetUserQuery()
+        {
+            Id = userId
+        });
+        
+        return Ok(e);
+    }
+    
+    /*[HttpPut("{userId}")]
+    public async Task<IActionResult> Get(string userId)
+    {
+        var e = await mediator.Send(new GetUserQuery()
+        {
+            Id = userId
+        });
+        
+        return Ok(e);
+    }*/
     
     [HttpGet("search")]
     public async Task<IActionResult> Search([FromQuery] string query)
