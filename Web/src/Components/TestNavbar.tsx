@@ -1,7 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import {Button} from "react-bootstrap";
-import { useAuth } from './auth-context';
+import { useAuth } from '../auth-context';
 import LogoutButton from './LogoutButton';
 
 function TestNavbar() {
@@ -12,7 +12,7 @@ function TestNavbar() {
             <Container>
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text className="px-3">
-                        Signed in as: <a href="/login">Admin</a>
+                        Signed in as: Admin
                     </Navbar.Text>
                     <LogoutButton />
                 </Navbar.Collapse>

@@ -1,26 +1,29 @@
 import React from 'react';
-import { Route, Navigate, RouteProps } from 'react-router-dom';
-import { useAuth } from './auth-context';
+import {Navigate} from 'react-router-dom';
+import {useAuth} from './auth-context';
+import TestNavbar from './Components/TestNavbar';
+import SidebarLayout from './Components/SidebarLayout';
+import Container from 'react-bootstrap/Container';
 
-interface PrivateRouteProps extends RouteProps {
-    component: React.ComponentType<any>;
+interface PrivateRouteProps {
+    component: React.ElementType;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({ component: Component, ...rest }) => {
-    const { isAuthenticated } = useAuth();
+const PrivateRoute: React.FC<PrivateRouteProps> = ({component: Component}) => {
+    const {isAuthenticated} = useAuth();
 
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                isAuthenticated ? (
-                    <Component {...props} />
-                ) : (
-                    <Navigate to="/login" />  // Redirect to login if not authenticated
-                )
-            }
-        />
-    );
+    console.log(isAuthenticated);
+    if (!isAuthenticated) {
+        return <Navigate to="/login" replace/>;
+
+    }
+
+    return (<SidebarLayout>
+                <TestNavbar></TestNavbar>
+                <Container>
+                    <Component></Component>
+                </Container>
+            </SidebarLayout>);
 };
 
 export default PrivateRoute;

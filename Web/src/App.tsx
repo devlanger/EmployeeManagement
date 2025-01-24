@@ -1,8 +1,5 @@
-import {useEffect, useState} from 'react';
 import './App.css';
 import {BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import TestNavbar from './Components/TestNavbar';
-import SidebarLayout from './Components/SidebarLayout';
 import DashboardPage from './Pages/DashboardPage';
 import EmployeesPage from './Pages/EmployeesPage';
 import TeamsPage from './Pages/TeamsPage';
@@ -17,7 +14,7 @@ function App() {
             <Router>
                 <Routes>
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/dashboard" element={<PrivateRoute component={DashboardPage} />}/>
+                    <Route path="/" element={<PrivateRoute component={DashboardPage} />}/>
                     <Route path="/employees" element={<PrivateRoute component={EmployeesPage} />}/>
                     <Route path="/teams" element={<PrivateRoute component={TeamsPage} />}/>
                     <Route path="*" element={<Navigate to="/login" />} />

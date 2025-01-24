@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../auth-context';
 
 interface InputState {
     email: string;
@@ -11,6 +12,7 @@ interface InputState {
 const LoginPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
+    const { login } = useAuth();
 
     const [input, setInput] = useState<InputState>({
         email: '',
@@ -49,8 +51,9 @@ const LoginPage: React.FC = () => {
 
             if (response.data.token) {
                 // Redirect to the return URL or default if no ReturnUrl provided
-                localStorage.setItem('authToken', response.data.token)
-                navigate(returnUrl);
+                login(response.data.token);
+                localStorage.setItem('authToken', response.data.token);
+                navigate('/');
             } else {
                 setErrorMessage('Invalid login attempt.' + response.data.token);
             }
@@ -64,13 +67,13 @@ const LoginPage: React.FC = () => {
 
     return (
         <div className="container">
-            <h1>Log in</h1>
             <div className="row">
-                <div className="col-md-4">
+                <div className="d-flex justify-content-center">
                     <section>
+                        <h1>Login</h1>
+                        
                         {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                         <form onSubmit={handleSubmit}>
-                            <h2>Use a local account to log in.</h2>
                             <hr />
                             <div className="form-floating mb-3">
                                 <input

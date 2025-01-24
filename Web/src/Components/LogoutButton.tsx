@@ -1,14 +1,14 @@
 import React from 'react';
-import { useAuth } from './auth-context';
-import { useHistory } from 'react-router-dom';
+import { useAuth } from '../auth-context';
+import { useNavigate } from 'react-router-dom';
 
 const LogoutButton: React.FC = () => {
     const { logout } = useAuth();
-    const history = useHistory();
+    const navigation = useNavigate();
 
     const handleLogout = () => {
         logout();  // Clear token from context and localStorage
-        history.push('/login');  // Redirect to login page
+        navigation('/login');  // Redirect to login page
     };
 
     return <button onClick={handleLogout}>Logout</button>;
