@@ -1,4 +1,5 @@
 using System.Text;
+using Azure.Core.Extensions;
 using EM.Application.Concrete;
 using EM.Core.Models;
 using EM.Infrastructure;
@@ -10,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using EM.Web.Components;
 using EM.Web.Components.Account;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Azure;
 using IdentityConstants = Microsoft.AspNetCore.Identity.IdentityConstants;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +42,14 @@ if (builder.Environment.IsProduction())
                            throw new InvalidOperationException("Connection string 'ConnectionStrings:Azure:SqlDb' not found.");
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
         options.UseSqlServer(connectionString));
+    
+    var storageConnectionString = builder.Configuration["ConnectionStrings:Azure:Storage"] 
+                                  ?? throw new InvalidOperationException("Connection string 'ConnectionStrings:Azure:Storage' not found.");
+    
+    builder.Services.AddAzureClients(azureBuilder =>
+    {
+        azureBuilder.AddBlobServiceClient(storageConnectionString);
+    });
 }
 else
 {

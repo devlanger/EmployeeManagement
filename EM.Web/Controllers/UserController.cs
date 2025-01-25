@@ -28,6 +28,17 @@ public class UserController(ISender mediator) : ControllerBase
         return Ok(e);
     }
     
+    [HttpGet("{userId}")]
+    public async Task<IActionResult> Get(string userId)
+    {
+        var e = await mediator.Send(new GetUserQuery()
+        {
+            Id = userId
+        });
+        
+        return Ok(e);
+    }
+    
     /*[HttpPut("{userId}")]
     public async Task<IActionResult> Get(string userId)
     {
