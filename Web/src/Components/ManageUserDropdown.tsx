@@ -1,5 +1,4 @@
 import Dropdown from 'react-bootstrap/Dropdown';
-import axios from 'axios';
 import * as React from "react";
 
 interface ManageUserDropdownProps {

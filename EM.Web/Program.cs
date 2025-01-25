@@ -111,6 +111,7 @@ else
 
 app.UseHttpsRedirection();
 
+app.MapFallbackToFile("index.html");
 app.UseStaticFiles();
 app.UseAntiforgery();
 

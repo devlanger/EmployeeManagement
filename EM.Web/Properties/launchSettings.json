@@ -12,9 +12,10 @@
       "Development": {
         "commandName": "Project",
         "dotnetRunMessages": true,
-        "launchBrowser": false,
-        "applicationUrl": "https://localhost:7005;http://localhost:5054",
+        "launchBrowser": true,
+        "applicationUrl": "http://localhost:5054",
         "environmentVariables": {
+          "REACT_APP_API_URL": "http://localhost:5137",
           "ASPNETCORE_ENVIRONMENT": "Development"
         }
       },

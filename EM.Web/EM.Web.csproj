@@ -28,11 +28,15 @@
       <ProjectReference Include="..\EM.Application\EM.Application.csproj" />
       <ProjectReference Include="..\EM.Core\EM.Core.csproj" />
       <ProjectReference Include="..\EM.Infrastructure\EM.Infrastructure.csproj" />
-
-
     </ItemGroup>
+    
+    <Target Name="BuildReactApp" BeforeTargets="Build">
+        <Exec Command="npm install" WorkingDirectory="../Web" />
+        <Exec Command="npm run build" WorkingDirectory="../Web" />
+        <Copy SourceFiles="@(ReactDist)" DestinationFolder="$(MSBuildProjectDirectory)/wwwroot" />
+    </Target>
 
-
-
-
+    <ItemGroup>
+        <ReactDist Include="../Web/dist/**/*.*" />
+    </ItemGroup>
 </Project>

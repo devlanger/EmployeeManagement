@@ -1,6 +1,6 @@
-import React from 'react';
 import {Container, Row, Col, Nav} from 'react-bootstrap';
 
+// @ts-ignore
 const SidebarLayout = ({children}) => {
     return (
         <Container fluid className="vh-100">

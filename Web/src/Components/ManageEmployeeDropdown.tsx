@@ -8,7 +8,7 @@ interface ManageEmployeeDropdownProps {
 }
 
 const ManageEmployeeDropdown: React.FC<ManageEmployeeDropdownProps> = ({employeeId, refresh}) => {
-    const handleGiveBonus = async () => {
+    const handleGiveBonus = async (employeeId?: string) => {
         try {
             // Example API call
             const response = await axios.post('api/Salary/' + employeeId, {});
@@ -24,6 +24,7 @@ const ManageEmployeeDropdown: React.FC<ManageEmployeeDropdownProps> = ({employee
         }
     };
 
+    // @ts-ignore
     return (
         <Dropdown>
             <Dropdown.Toggle variant="success" id="dropdown-basic">

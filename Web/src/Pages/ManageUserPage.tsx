@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
@@ -17,7 +17,7 @@ const ManageUserPage = () => {
         selectedRoles: [],
     });
 
-    const [allRoles, setAllRoles] = useState([]);
+    //const [allRoles, setAllRoles] = useState([]);
     const [stateMessage, setStateMessage] = useState("");
 
     // Fetch user and roles data
@@ -26,13 +26,13 @@ const ManageUserPage = () => {
             try {
                 const { data: userData } = await axios.get(`/api/user/${userId}`);
                 //const { data: rolesData } = await axios.get("/api/roles");
-                const rolesData = ["Admin", "Manager", "Editor", "Viewer"];
+                //const rolesData = ["Admin", "Manager", "Editor", "Viewer"];
 
                 setUserDetails({
                     ...userData,
                     selectedRoles: userData.roles, // Assuming `roles` is part of the user data
                 });
-                setAllRoles(rolesData);
+                //setAllRoles(rolesData);
             } catch (error) {
                 console.error("Error fetching user data:", error);
             }
@@ -40,7 +40,7 @@ const ManageUserPage = () => {
         fetchData();
     }, [userId]);
 
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
         const { name, value } = e.target;
         setUserDetails((prevDetails) => ({
             ...prevDetails,
@@ -48,17 +48,17 @@ const ManageUserPage = () => {
         }));
     };
 
-    const handleRoleToggle = (role) => {
-        setUserDetails((prevDetails) => {
-            const isSelected = prevDetails.selectedRoles.includes(role);
-            const updatedRoles = isSelected
-                ? prevDetails.selectedRoles.filter((r) => r !== role)
-                : [...prevDetails.selectedRoles, role];
-            return { ...prevDetails, selectedRoles: updatedRoles };
-        });
-    };
+    //const handleRoleToggle = (role) => {
+    //    setUserDetails((prevDetails) => {
+    //        const isSelected = prevDetails.selectedRoles.includes(role);
+    //        const updatedRoles = isSelected
+    //            ? prevDetails.selectedRoles.filter((r) => r !== role)
+    //            : [...prevDetails.selectedRoles, role];
+    //        return { ...prevDetails, selectedRoles: updatedRoles };
+    //    });
+    //};
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = async (e: { preventDefault: () => void; }) => {
         e.preventDefault();
         try {
             // Send all user details, including selectedRoles, to the update endpoint

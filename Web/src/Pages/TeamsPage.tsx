@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 
-interface Employee {
+interface Team {
     id: number;
     name: string;
     membersCount: number;
