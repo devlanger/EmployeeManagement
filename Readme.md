@@ -24,3 +24,9 @@ Add migration command:
 -[ ] Rewrite identity to mediator and api
 -[ ] Host application in docker container on GitHub pages
 -[ ] Use GitHub Actions to automatize deployment to pages
+
+Azure Services used:
+-Azure App Service - deployment of app
+-Azure SQL Server + Database - database
+-Azure Blob Storage + CDN - hosting content like user images
+-Azure AD B2C - identity and authentication through various services
