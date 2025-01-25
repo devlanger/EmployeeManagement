@@ -1,6 +1,6 @@
 <h1>Employee Management Application</h1>
 
-emanager-web-fsbpf8hrhrd7cqhp.northeurope-01.azurewebsites.net
+[Azure Development App Link](emanager-web-fsbpf8hrhrd7cqhp.northeurope-01.azurewebsites.net)
 
 <h2>1. Watch demo video: </h2>
 
