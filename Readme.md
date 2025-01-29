@@ -23,6 +23,7 @@ Add migration command:
 -[x] Rewrite identity to mediator and api
 -[x] Host application in App Service on Azure pages
 
+-[ ] Add audit logs through mediator events
 -[ ] AzureDev ops pipelines to deploy/publish application
 -[ ] Optimistic Concurrency for editing teams/users
 
