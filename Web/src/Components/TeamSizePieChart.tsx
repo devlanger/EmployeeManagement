@@ -4,14 +4,14 @@ import { PieChart, Pie, Tooltip, Cell } from 'recharts';
 const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
 
 // @ts-ignore
-const PieChartTest = ({data}) => {
+const TeamSizePieChart = ({data}) => {
     // @ts-ignore
     return (
         <PieChart width={400} height={400}>
             <Pie
                 data={data}
-                dataKey="amount"
-                nameKey="minSalary"
+                dataKey="membersCount"
+                nameKey="name"
                 cx="50%" // Center X
                 cy="50%" // Center Y
                 outerRadius={150} // Outer radius of the pie chart
@@ -27,4 +27,4 @@ const PieChartTest = ({data}) => {
     );
 };
 
-export default PieChartTest;
+export default TeamSizePieChart;

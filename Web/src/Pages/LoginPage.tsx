@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
-import {useLocation, useNavigate} from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {useAuth} from '../auth-context';
+import { useAuth } from '../auth-context';
 
 interface InputState {
     email: string;
@@ -12,7 +12,7 @@ interface InputState {
 const LoginPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const {login} = useAuth();
+    const { login } = useAuth();
 
     const [input, setInput] = useState<InputState>({
         email: '',
@@ -21,15 +21,20 @@ const LoginPage: React.FC = () => {
     });
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
+    const [autoSubmit, setAutoSubmit] = useState<boolean>(false);
 
     // Get return URL from query string
-    let _returnUrl = new URLSearchParams(location.search).get('ReturnUrl') || '/'
+    let _returnUrl = new URLSearchParams(location.search).get('ReturnUrl') || '/';
+
     useEffect(() => {
-        // Clear any external cookies or session if needed (this is more relevant to server-side logic)
-    }, []);
+        if (autoSubmit) {
+            handleSubmit(new Event('submit') as unknown as React.FormEvent);
+            setAutoSubmit(false);
+        }
+    }, [input]); // Triggered when `input` state updates
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value, type, checked} = e.target;
+        const { name, value, type, checked } = e.target;
         setInput((prevState) => ({
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
@@ -49,12 +54,11 @@ const LoginPage: React.FC = () => {
             });
 
             if (response.data.token) {
-                // Redirect to the return URL or default if no ReturnUrl provided
                 login(response.data.token);
                 localStorage.setItem('authToken', response.data.token);
-                navigate('/');
+                navigate(_returnUrl);
             } else {
-                setErrorMessage('Invalid login attempt.' + response.data.token);
+                setErrorMessage('Invalid login attempt.');
             }
         } catch (error) {
             console.error('Login failed:', error);
@@ -66,15 +70,12 @@ const LoginPage: React.FC = () => {
 
     const handleTestUserLogin = () => {
         setInput({
-            email: 'testuser@example.com',
-            password: 'Test@1234',
+            email: 'admin@em.com',
+            password: 'Test!123',
             rememberMe: false
         });
 
-        // Automatically submit form after setting credentials
-        setTimeout(() => {
-            handleSubmit(new Event('submit') as unknown as React.FormEvent);
-        }, 500);
+        setAutoSubmit(true); // Ensures submission happens only after state update
     };
 
     return (
@@ -86,7 +87,7 @@ const LoginPage: React.FC = () => {
 
                         {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                         <form onSubmit={handleSubmit}>
-                            <hr/>
+                            <hr />
                             <div className="form-floating mb-3">
                                 <input
                                     type="email"
@@ -138,18 +139,6 @@ const LoginPage: React.FC = () => {
                                         {loading ? 'Logging in as Test User...' : 'Login as Test User'}
                                     </button>
                                 </div>
-                            </div>
-                            <div>
-                                {/*<p>*/}
-                                {/*    <a href="/Account/ForgotPassword">Forgot your password?</a>*/}
-                                {/*</p>*/}
-                                {/*<p>*/}
-                                {/*    <a href={`/Account/Register?ReturnUrl=${encodeURIComponent(returnUrl)}`}>Register as*/}
-                                {/*        a new user</a>*/}
-                                {/*</p>*/}
-                                {/*<p>*/}
-                                {/*    <a href="/Account/ResendEmailConfirmation">Resend email confirmation</a>*/}
-                                {/*</p>*/}
                             </div>
                         </form>
                     </section>

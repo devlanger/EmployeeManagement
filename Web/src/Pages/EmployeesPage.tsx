@@ -6,6 +6,7 @@ interface Employee {
     firstName: string;
     lastName: string;
     salary: string;
+    teamId: number;
 }
 
 const EmployeesPage = () => {
@@ -24,6 +25,7 @@ const EmployeesPage = () => {
                 <th>First Name</th>
                 <th>Last Name</th>
                 <th>Salary</th>
+                <th>Team</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -34,6 +36,7 @@ const EmployeesPage = () => {
                     <td>{employee.firstName}</td>
                     <td>{employee.lastName}</td>
                     <td>{employee.salary}</td>
+                    <td>{employee.teamId}</td>
                     <td>
                         <ManageEmployeeDropdown 
                             employeeId={employee.id}

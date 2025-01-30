@@ -47,18 +47,18 @@ public static class SeedData
             if (adminUser == null)
             {
                 adminUser = new ApplicationUser
-                    { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe", Salary = 100, TeamId = 1};
+                    { UserName = "admin@em.com", Email = "admin@em.com", FirstName = "John", LastName = "Doe", Salary = 1000, TeamId = 1};
                 await userManager.CreateAsync(adminUser, "Test!123");
                 await userManager.AddToRolesAsync(adminUser, IdentityConstants.AllRoles);
             }
 
             var employeeUser = new ApplicationUser
-                { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Foe", Salary = 200, TeamId = 2};
+                { UserName = "employee@em.com", Email = "employee@em.com", FirstName = "John", LastName = "Foe", Salary = 2000, TeamId = 2};
             await userManager.CreateAsync(employeeUser, "Test!123");
             await userManager.AddToRoleAsync(employeeUser, IdentityConstants.EMPLOYEE_ROLE_NAME);
 
             var testerUser = new ApplicationUser
-                { UserName = "tester@em.com", Email = "tester@em.com", FirstName = "John", LastName = "Goe", Salary = 200};
+                { UserName = "tester@em.com", Email = "tester@em.com", FirstName = "John", LastName = "Goe", Salary = 3100};
             await userManager.CreateAsync(testerUser, "Test!123");
 
         }

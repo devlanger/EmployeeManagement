@@ -19,6 +19,8 @@ public class ApplicationUserResponseModel
     public string? City { get; set; }
     
     public string? SupervisorId { get; set; }
+    
+    public int? TeamId { get; set; }
 
     public DateTimeOffset? Birthday { get; set; }
 }

@@ -31,6 +31,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
         user.City = request.City;
         user.Salary = request.Salary;
         user.TeamId = request.TeamId;
+        user.SupervisorId = request.SupervisorId;
 
         //Add locking
         if (request.SelectedRoles != null)
