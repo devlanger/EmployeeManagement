@@ -20,13 +20,16 @@ public class GetUsersQueryByNameHandler : IRequestHandler<GetUsersByNameQuery, I
     
     public async Task<IEnumerable<ApplicationUserResponseModel>> Handle(GetUsersByNameQuery request, CancellationToken cancellationToken)
     {
-        var x = await _employeeRepo.Users
+        var users = await _employeeRepo.Users
             .Where(u => (u.FirstName + " " + u.LastName).ToLower()
                 .Contains(request.Name.ToLower()))
             .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
+
+        if (!users.Any())
+            return Enumerable.Empty<ApplicationUserResponseModel>();
         
-        var response = x.Select(y => 
+        var response = users.Select(y => 
             _mapper.Map(y, new ApplicationUserResponseModel()));
         
         return response;

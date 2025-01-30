@@ -14,14 +14,11 @@ public class GetTeamsQueryHandler : IRequestHandler<GetTeamsQuery, IEnumerable<T
     {
         _teamRepo = teamRepo;
     }
-    
+
     public async Task<IEnumerable<TeamViewModel>> Handle(GetTeamsQuery request, CancellationToken cancellationToken)
-    {
-        var x = await _teamRepo.Query()
-            .Select(x => new TeamViewModel(){ Id = x.Id.GetValueOrDefault(), Name = x.Name, MembersCount = x.Members.Count})
+        => await _teamRepo.Query()
+            .Select(x => new TeamViewModel()
+                { Id = x.Id.GetValueOrDefault(), Name = x.Name, MembersCount = x.Members.Count })
             .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
-        
-        return x;
-    }
 }

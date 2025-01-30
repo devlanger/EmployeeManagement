@@ -1,7 +1,9 @@
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
-using EM.Application.CQRS.Users.Queries.GetUserQuery;
+using EM.Application.CQRS.Users.Commands.UpdateUserCommand;
+using EM.Application.CQRS.Users.Queries.GetUserQueryById;
 using EM.Application.CQRS.Users.Queries.GetUsersByNameQuery;
 using EM.Application.CQRS.Users.Queries.GetUsersQuery;
+using EM.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,6 +18,13 @@ public class UserController(ISender mediator) : ControllerBase
     {
         var e = await mediator.Send(new GetUsersQuery());
         return Ok(e);
+    }
+    
+    [HttpPut]
+    public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
+    {
+        await mediator.Send(command);
+        return Ok();
     }
     
     [HttpGet("{userId}")]

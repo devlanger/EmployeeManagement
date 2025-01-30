@@ -12,19 +12,18 @@ public class GetTeamMembersQueryHandler : IRequestHandler<GetTeamMembersQuery, I
     {
         _teamRepo = teamRepo;
     }
-    
+
     public async Task<IEnumerable<string>> Handle(GetTeamMembersQuery request, CancellationToken cancellationToken)
     {
         var x = await _teamRepo.Query()
             .Include(t => t.Members)
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.Id == request.Id, cancellationToken: cancellationToken);
-        
+
         if (x == null)
             throw new Exception($"Team with id {request.Id} not found");
-        
-        var members = x.Members.Select(y => $"{y.FirstName}{y.LastName}");
 
-        return members ?? Enumerable.Empty<string>();
+        return x.Members.AsReadOnly()
+            .Select(y => $"{y.FirstName}{y.LastName}");
     }
 }

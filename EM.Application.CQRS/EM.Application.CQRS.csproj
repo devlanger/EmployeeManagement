@@ -12,13 +12,10 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Users\Commands\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\EM.Application\EM.Application.csproj" />
       <ProjectReference Include="..\EM.Core\EM.Core.csproj" />
     </ItemGroup>
+
 
 
 </Project>

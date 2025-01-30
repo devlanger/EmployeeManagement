@@ -11,23 +11,25 @@ interface User {
     firstName: string;
     lastName: string;
     birthday: string;
-    teamId: number;
-    supervisorId: string;
+    teamId: number | null;
+    supervisorId: string | null;
 }
 
 const ManageUserPage = () => {
     const {userId} = useParams();
     const navigate = useNavigate();
 
-    const [userDetails, setUserDetails] = useState({
-        username: "",
+    let [userDetails, setUserDetails] = useState({
+        id: "",
         email: "",
+        username: "",
         firstName: "",
         lastName: "",
         city: "",
-        teamId: "",
+        salary: 0,
         birthday: "",
         supervisorId: "",
+        teamId: 0,
         selectedRoles: [],
     });
 
@@ -91,7 +93,7 @@ const ManageUserPage = () => {
         e.preventDefault();
         try {
             // Send all user details, including selectedRoles, to the update endpoint
-            await axios.put(`/api/user/${userId}`, userDetails);
+            await axios.put(`/api/user`, userDetails);
             setStateMessage("User updated successfully.");
         } catch (error) {
             console.error("Error updating user:", error);
