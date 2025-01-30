@@ -1,9 +1,9 @@
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
 using EM.Application.CQRS.Users.Commands.UpdateUserCommand;
+using EM.Application.CQRS.Users.Queries.GetEmployeeMaxSalary;
 using EM.Application.CQRS.Users.Queries.GetUserQueryById;
 using EM.Application.CQRS.Users.Queries.GetUsersByNameQuery;
 using EM.Application.CQRS.Users.Queries.GetUsersQuery;
-using EM.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +24,15 @@ public class UserController(ISender mediator) : ControllerBase
     public async Task<IActionResult> Update([FromBody] UpdateUserCommand command)
     {
         await mediator.Send(command);
+        return Ok();
+    }
+
+    public async Task<IActionResult> GetMaxEmployeeSalary()
+    {
+        var result = await mediator.Send(new GetEmployeeMaxSalary()
+        {
+            
+        });
         return Ok();
     }
     

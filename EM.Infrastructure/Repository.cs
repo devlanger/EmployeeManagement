@@ -13,7 +13,12 @@ public class Repository<T> : IRepository<T> where T : BaseEntity
     {
         _dbContext = dbContext;
     }
-    
+
+    public async Task ExecuteSql(string sql)
+    {
+        await _dbContext.Database.ExecuteSqlRawAsync(sql);
+    }
+
     public IQueryable<T> Query()
     {
         return _dbContext.Set<T>().AsQueryable();
