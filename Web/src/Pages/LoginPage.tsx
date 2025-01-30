@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, {useState, useEffect} from 'react';
+import {useLocation, useNavigate} from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../auth-context';
+import {useAuth} from '../auth-context';
 
 interface InputState {
     email: string;
@@ -12,7 +12,7 @@ interface InputState {
 const LoginPage: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { login } = useAuth();
+    const {login} = useAuth();
 
     const [input, setInput] = useState<InputState>({
         email: '',
@@ -23,14 +23,13 @@ const LoginPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
 
     // Get return URL from query string
-    const returnUrl = new URLSearchParams(location.search).get('ReturnUrl') || '/';
-
+    let _returnUrl = new URLSearchParams(location.search).get('ReturnUrl') || '/'
     useEffect(() => {
         // Clear any external cookies or session if needed (this is more relevant to server-side logic)
     }, []);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value, type, checked } = e.target;
+        const {name, value, type, checked} = e.target;
         setInput((prevState) => ({
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
@@ -65,16 +64,29 @@ const LoginPage: React.FC = () => {
         }
     };
 
+    const handleTestUserLogin = () => {
+        setInput({
+            email: 'testuser@example.com',
+            password: 'Test@1234',
+            rememberMe: false
+        });
+
+        // Automatically submit form after setting credentials
+        setTimeout(() => {
+            handleSubmit(new Event('submit') as unknown as React.FormEvent);
+        }, 500);
+    };
+
     return (
         <div className="container">
             <div className="row">
                 <div className="d-flex justify-content-center">
                     <section>
                         <h1>Login</h1>
-                        
+
                         {errorMessage && <div className="alert alert-danger">{errorMessage}</div>}
                         <form onSubmit={handleSubmit}>
-                            <hr />
+                            <hr/>
                             <div className="form-floating mb-3">
                                 <input
                                     type="email"
@@ -115,17 +127,29 @@ const LoginPage: React.FC = () => {
                                 <button type="submit" className="w-100 btn btn-lg btn-primary" disabled={loading}>
                                     {loading ? 'Logging in...' : 'Log in'}
                                 </button>
+
+                                <div className="mt-3">
+                                    <button
+                                        type="button"
+                                        className="w-100 btn btn-secondary"
+                                        onClick={handleTestUserLogin}
+                                        disabled={loading}
+                                    >
+                                        {loading ? 'Logging in as Test User...' : 'Login as Test User'}
+                                    </button>
+                                </div>
                             </div>
                             <div>
-                                <p>
-                                    <a href="/Account/ForgotPassword">Forgot your password?</a>
-                                </p>
-                                <p>
-                                    <a href={`/Account/Register?ReturnUrl=${encodeURIComponent(returnUrl)}`}>Register as a new user</a>
-                                </p>
-                                <p>
-                                    <a href="/Account/ResendEmailConfirmation">Resend email confirmation</a>
-                                </p>
+                                {/*<p>*/}
+                                {/*    <a href="/Account/ForgotPassword">Forgot your password?</a>*/}
+                                {/*</p>*/}
+                                {/*<p>*/}
+                                {/*    <a href={`/Account/Register?ReturnUrl=${encodeURIComponent(returnUrl)}`}>Register as*/}
+                                {/*        a new user</a>*/}
+                                {/*</p>*/}
+                                {/*<p>*/}
+                                {/*    <a href="/Account/ResendEmailConfirmation">Resend email confirmation</a>*/}
+                                {/*</p>*/}
                             </div>
                         </form>
                     </section>

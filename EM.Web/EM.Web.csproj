@@ -33,10 +33,11 @@
     <Target Name="BuildReactApp" BeforeTargets="Build">
         <Exec Command="npm install" WorkingDirectory="../Web" />
         <Exec Command="npm run build" WorkingDirectory="../Web" />
-        <Copy SourceFiles="@(ReactDist)" DestinationFolder="$(MSBuildProjectDirectory)/wwwroot" />
+        <Copy SourceFiles="@(ReactDist)"
+              DestinationFolder="$(MSBuildProjectDirectory)/wwwroot/%(RecursiveDir)" />
     </Target>
 
     <ItemGroup>
-        <ReactDist Include="../Web/dist/**/*.*" />
+        <ReactDist Include="../Web/dist/**" />
     </ItemGroup>
 </Project>

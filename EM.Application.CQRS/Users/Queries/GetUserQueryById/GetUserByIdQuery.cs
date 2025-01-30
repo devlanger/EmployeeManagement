@@ -3,7 +3,7 @@ using MediatR;
 
 namespace EM.Application.CQRS.Users.Queries.GetUserQuery;
 
-public class GetUserQuery : IRequest<ApplicationUserResponseModel>
+public class GetUserByIdQuery : IRequest<ApplicationUserResponseModel>
 {
-    public string Id { get; set; }
+    public string? Id { get; set; }
 }

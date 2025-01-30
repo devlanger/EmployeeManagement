@@ -14,7 +14,7 @@ const SidebarLayout = ({children}) => {
                         <Nav.Link href="/Users">Users</Nav.Link>
                     </Nav>
                 </Col>
-                <Col className="p-0">
+                <Col className="p-0" style={{height: "100vh", overflow: "auto"}}>
                     {children}
                 </Col>
             </Row>

@@ -6,18 +6,18 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EM.Application.CQRS.Users.Queries.GetUserQuery;
 
-public class GetUserQueryHandler : IRequestHandler<GetUserQuery, ApplicationUserResponseModel>
+public class GetUserQueryByIdHandler : IRequestHandler<GetUserByIdQuery, ApplicationUserResponseModel>
 {
     private readonly UserManager<ApplicationUser> _employeeRepo;
     private readonly IMapper _mapper;
 
-    public GetUserQueryHandler(UserManager<ApplicationUser> employeeRepo, IMapper mapper)
+    public GetUserQueryByIdHandler(UserManager<ApplicationUser> employeeRepo, IMapper mapper)
     {
         _employeeRepo = employeeRepo;
         _mapper = mapper;
     }
     
-    public async Task<ApplicationUserResponseModel> Handle(GetUserQuery request, CancellationToken cancellationToken)
+    public async Task<ApplicationUserResponseModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
         var x = await _employeeRepo.FindByIdAsync(request.Id);
         var applicationUserResponseModel = new ApplicationUserResponseModel();

@@ -19,4 +19,6 @@ public class ApplicationUser : IdentityUser
     public string? City { get; set; }
 
     public DateTimeOffset? Birthday { get; set; }
+    
+    //public DateTimeOffset? UpdatedAt { get; set; }
 }

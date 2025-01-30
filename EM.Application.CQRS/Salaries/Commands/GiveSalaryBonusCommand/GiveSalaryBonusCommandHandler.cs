@@ -24,9 +24,23 @@ public class GiveSalaryBonusCommandHandler : IRequestHandler<GiveSalaryBonusComm
         
         if (employee == null)
             throw new Exception($"User with id {request.EmployeeId} not found");
-        
+
+        //var currentUpdatedAt = employee.UpdatedAt;
         _bonusService.GiveBonus(employee, 0.2m);
-        
-        await _userManager.UpdateAsync(employee);
+
+        try
+        {
+            // if (employee.UpdatedAt != currentUpdatedAt)
+            // {
+            //     throw new Exception("The employee record has been modified by another user. Please try again.");
+            // }
+            //
+            // employee.UpdatedAt = DateTimeOffset.Now;
+            await _userManager.UpdateAsync(employee);
+        }
+        catch
+        {
+            throw new Exception("An error occurred while updating the employee.");
+        }
     }
 }

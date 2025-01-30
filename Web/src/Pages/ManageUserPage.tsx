@@ -1,9 +1,22 @@
-import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {useState, useEffect} from "react";
+import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
+import SearchBar from "../Components/SearchBar";
+
+interface User {
+    id: string;
+    username: string;
+    email: string;
+    city: string;
+    firstName: string;
+    lastName: string;
+    birthday: string;
+    teamId: number;
+    supervisorId: string;
+}
 
 const ManageUserPage = () => {
-    const { userId } = useParams();
+    const {userId} = useParams();
     const navigate = useNavigate();
 
     const [userDetails, setUserDetails] = useState({
@@ -14,8 +27,11 @@ const ManageUserPage = () => {
         city: "",
         teamId: "",
         birthday: "",
+        supervisorId: "",
         selectedRoles: [],
     });
+
+    const [searchUsers, setSearchUsers] = useState<User[]>([]);
 
     //const [allRoles, setAllRoles] = useState([]);
     const [stateMessage, setStateMessage] = useState("");
@@ -24,10 +40,11 @@ const ManageUserPage = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const { data: userData } = await axios.get(`/api/user/${userId}`);
+                const {data: userData} = await axios.get(`/api/user/${userId}`);
                 //const { data: rolesData } = await axios.get("/api/roles");
                 //const rolesData = ["Admin", "Manager", "Editor", "Viewer"];
-
+                
+                console.log(userData);
                 setUserDetails({
                     ...userData,
                     selectedRoles: userData.roles, // Assuming `roles` is part of the user data
@@ -40,8 +57,20 @@ const ManageUserPage = () => {
         fetchData();
     }, [userId]);
 
+    const handleSearch = async (query: string) => {
+        console.log('Searching for:', query);
+        // Perform the actual search (e.g., API request, data filter, etc.)
+        if (query.length > 0) {
+            const {data: searchUsers} = await axios.get(`/api/user/name/${query}`);
+            console.log(searchUsers);
+            setSearchUsers(searchUsers)
+        } else {
+            setSearchUsers([])
+        }
+    };
+
     const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
-        const { name, value } = e.target;
+        const {name, value} = e.target;
         setUserDetails((prevDetails) => ({
             ...prevDetails,
             [name]: value,
@@ -74,12 +103,25 @@ const ManageUserPage = () => {
         navigate("/users");
     };
 
+    const supervisorsMap = searchUsers === undefined ? <p></p> : searchUsers.map(user =>
+        <div>
+            <p>{user.firstName} {user.lastName}</p>
+            <button onClick={() => {
+                setUserDetails({
+                    ...userDetails,
+                    supervisorId: user.id
+                })
+            }} className="w-100 btn btn-lg btn-primary">Assign
+            </button>
+        </div>
+    );
+
     return (
         <div className="container">
             <button className="btn btn-primary mb-3" onClick={handleBack}>
                 Back
             </button>
-            <h1>Manage User {userId}</h1>
+            <h1>Manage User {userDetails.firstName} {userDetails.lastName}</h1>
             {stateMessage && <div className="alert alert-success mt-3">{stateMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <h3>Personal Details</h3>
@@ -120,6 +162,17 @@ const ManageUserPage = () => {
                         id="lastName"
                         name="lastName"
                         value={userDetails.lastName}
+                        onChange={handleInputChange}
+                        className="form-control"
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="supervisorId">Supervisor Id:</label>
+                    <input
+                        readOnly={true}
+                        id="supervisorId"
+                        name="supervisorId"
+                        value={userDetails.supervisorId}
                         onChange={handleInputChange}
                         className="form-control"
                     />
@@ -175,8 +228,12 @@ const ManageUserPage = () => {
                     Update
                 </button>
             </form>
+
+            <h3>Search Supervisor</h3>
+            <SearchBar onSearch={handleSearch}/>
+            {supervisorsMap}
         </div>
-    );
+    )
 };
 
 export default ManageUserPage;
