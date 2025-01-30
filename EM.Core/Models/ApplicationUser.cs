@@ -14,9 +14,13 @@ public class ApplicationUser : IdentityUser
     
     public int? TeamId { get; set; }
     
-    public virtual Team Team { get; set; }
+    public Team Team { get; set; }
     
     public string? City { get; set; }
+    
+    public string? SupervisorId { get; set; }
+    
+    public ApplicationUser Supervisor { get; set; }
 
     public DateTimeOffset? Birthday { get; set; }
     
