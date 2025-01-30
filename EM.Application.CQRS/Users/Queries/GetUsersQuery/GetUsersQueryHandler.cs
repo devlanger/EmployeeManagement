@@ -12,11 +12,15 @@ public class GetUsersQueryHandler(UserManager<ApplicationUser> employeeRepo, IMa
 {
     public async Task<IEnumerable<ApplicationUserResponseModel>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        var x = await employeeRepo.Users
+        var users = await employeeRepo.Users
             .Include(x => x.Team)
             .Select(x => mapper.Map(x, new ApplicationUserResponseModel()))
+            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
         
-        return x;
+        if(!users.Any())
+            return Enumerable.Empty<ApplicationUserResponseModel>();
+        
+        return users;
     }
 }

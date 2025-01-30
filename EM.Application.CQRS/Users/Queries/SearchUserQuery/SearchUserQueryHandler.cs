@@ -27,8 +27,12 @@ public class SearchUserQueryHandler : IRequestHandler<SearchUserQuery, IEnumerab
             .Where(e => e.FirstName.ToLower().Contains(lowerQuery) || e.LastName.ToLower().Contains(lowerQuery))
             .Select(e => new UserSearchViewModel() { Id = e.Id, FullName = e.FirstName + " " + e.LastName })
             .Take(10)
+            .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
 
+        if (!suggestions.Any())
+            return Enumerable.Empty<UserSearchViewModel>();
+        
         return suggestions;
     }
 }

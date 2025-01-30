@@ -1,4 +1,7 @@
 <h1>Employee Management Application</h1>
+
+[Azure Development App Link](https://emanager-web-fsbpf8hrhrd7cqhp.northeurope-01.azurewebsites.net)
+
 <h2>1. Watch demo video: </h2>
 
 [![EM Demo](https://img.youtube.com/vi/dDwdu6Elq8c/0.jpg)](https://www.youtube.com/watch?v=dDwdu6Elq8c)
@@ -16,8 +19,17 @@ Add migration command:
 -[x] Add AutoMapper and use for View Model mappings
 -[x] Add roles and authorization to add employees and give salaries
 -[x] Add middleware to refresh roles claims after user update
--[ ] Add team entity, list entities in teams razor page
--[ ] Split roles and permissions
--[ ] Rewrite identity to mediator and api
--[ ] Host application in docker container on GitHub pages
--[ ] Use GitHub Actions to automatize deployment to pages
+-[x] Add team entity, list entities in teams razor page
+-[x] Rewrite identity to mediator and api
+-[x] Host application in App Service on Azure pages
+
+-[ ] Add audit logs through mediator events
+-[ ] AzureDev ops pipelines to deploy/publish application
+-[ ] Optimistic Concurrency for editing teams/users
+
+
+Azure Services used:
+-Azure App Service - deployment of app
+-Azure SQL Server + Database - database
+-Azure Blob Storage + CDN - hosting content like user images
+-Azure AD B2C - identity and authentication through various services
