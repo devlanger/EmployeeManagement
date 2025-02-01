@@ -36,7 +36,7 @@ builder.Services.AddAuthentication(options =>
     .AddIdentityCookies();
 
 
-if (builder.Environment.IsProduction())
+if (!builder.Environment.IsDevelopment())
 {
     var connectionString = builder.Configuration["ConnectionStrings:Azure:SqlDb"] ??
                            throw new InvalidOperationException("Connection string 'ConnectionStrings:Azure:SqlDb' not found.");
@@ -56,7 +56,7 @@ else
     var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
                            throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
     builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlite(connectionString));
+        options.UseSqlServer(connectionString));
 }
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
@@ -68,8 +68,7 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => { options.SignIn.Re
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddUserManager<UserManager<ApplicationUser>>()
-    .AddRoleManager<RoleManager<IdentityRole>>()
-    .AddDefaultTokenProviders();
+    .AddRoleManager<RoleManager<IdentityRole>>();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 builder.Services.AddAuthentication(options =>
@@ -128,9 +127,15 @@ app.UseAntiforgery();
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<ApplicationDbContext>();
+    var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+
+    if (pendingMigrations.Any())
+    {
+        await context.Database.MigrateAsync();
+    }
     await SeedData.Initialize(services);
 }
-
 
 app.UseAuthentication();
 app.UseAuthorization();

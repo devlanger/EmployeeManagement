@@ -20,6 +20,8 @@ public class ApplicationUserResponseModel
     
     public string? SupervisorId { get; set; }
     
+    public string? SupervisorName { get; set; }
+    
     public int? TeamId { get; set; }
 
     public DateTimeOffset? Birthday { get; set; }

@@ -14,7 +14,8 @@ public class GetUsersQueryHandler(UserManager<ApplicationUser> employeeRepo, IMa
     {
         var users = await employeeRepo.Users
             .Include(x => x.Team)
-            .Select(x => mapper.Map(x, new ApplicationUserResponseModel()))
+            .Include(x => x.Supervisor)
+            .Select(x => GetUsersQueryHandler.GetMapping(mapper, x))
             .AsNoTracking()
             .ToListAsync(cancellationToken: cancellationToken);
         
@@ -22,5 +23,12 @@ public class GetUsersQueryHandler(UserManager<ApplicationUser> employeeRepo, IMa
             return Enumerable.Empty<ApplicationUserResponseModel>();
         
         return users;
+    }
+
+    private static ApplicationUserResponseModel GetMapping(IMapper mapper, ApplicationUser user)
+    {
+        var result = mapper.Map<ApplicationUserResponseModel>(user);
+        result.SupervisorName = user.SupervisorId is not null ? $"{user.Supervisor.FirstName} {user.Supervisor.LastName}" : null;
+        return result;
     }
 }
