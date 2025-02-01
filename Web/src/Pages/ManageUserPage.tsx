@@ -1,7 +1,9 @@
-import {useState, useEffect} from "react";
+import React, {useState, useEffect} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
 import SearchBar from "../Components/SearchBar";
+import {Col, Container, Row} from "react-bootstrap";
+import Card from "react-bootstrap/Card";
 
 interface User {
     id: string;
@@ -45,7 +47,7 @@ const ManageUserPage = () => {
                 const {data: userData} = await axios.get(`/api/user/${userId}`);
                 //const { data: rolesData } = await axios.get("/api/roles");
                 //const rolesData = ["Admin", "Manager", "Editor", "Viewer"];
-                
+
                 console.log(userData);
                 setUserDetails({
                     ...userData,
@@ -127,91 +129,127 @@ const ManageUserPage = () => {
             {stateMessage && <div className="alert alert-success mt-3">{stateMessage}</div>}
             <form onSubmit={handleSubmit}>
                 <h3>Personal Details</h3>
-                <div className="form-group">
-                    <label htmlFor="username">Name:</label>
-                    <input
-                        id="username"
-                        name="username"
-                        value={userDetails.username}
-                        onChange={handleInputChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="email">Email:</label>
-                    <input
-                        id="email"
-                        name="email"
-                        value={userDetails.email}
-                        onChange={handleInputChange}
-                        type="email"
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="firstName">First name:</label>
-                    <input
-                        id="firstName"
-                        name="firstName"
-                        value={userDetails.firstName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="lastName">Last name:</label>
-                    <input
-                        id="lastName"
-                        name="lastName"
-                        value={userDetails.lastName}
-                        onChange={handleInputChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="supervisorId">Supervisor Id:</label>
-                    <input
-                        readOnly={true}
-                        id="supervisorId"
-                        name="supervisorId"
-                        value={userDetails.supervisorId}
-                        onChange={handleInputChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="city">City:</label>
-                    <input
-                        id="city"
-                        name="city"
-                        value={userDetails.city}
-                        onChange={handleInputChange}
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="teamId">Team Id:</label>
-                    <input
-                        id="teamId"
-                        name="teamId"
-                        value={userDetails.teamId}
-                        onChange={handleInputChange}
-                        type="number"
-                        className="form-control"
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="birthday">Birthdate:</label>
-                    <input
-                        id="birthday"
-                        name="birthday"
-                        value={userDetails.birthday}
-                        onChange={handleInputChange}
-                        type="date"
-                        className="form-control"
-                    />
-                </div>
+                <Card>
+                    <Card.Body>
+                        <Container>
+                            <Row>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="username">Name:</label>
+                                        <input
+                                            id="username"
+                                            name="username"
+                                            value={userDetails.username}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="email">Email:</label>
+                                        <input
+                                            id="email"
+                                            name="email"
+                                            value={userDetails.email}
+                                            onChange={handleInputChange}
+                                            type="email"
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="firstName">First name:</label>
+                                        <input
+                                            id="firstName"
+                                            name="firstName"
+                                            value={userDetails.firstName}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="lastName">Last name:</label>
+                                        <input
+                                            id="lastName"
+                                            name="lastName"
+                                            value={userDetails.lastName}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="supervisorId">Supervisor Id:</label>
+                                        <input
+                                            readOnly={true}
+                                            id="supervisorId"
+                                            name="supervisorId"
+                                            value={userDetails.supervisorId}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="city">City:</label>
+                                        <input
+                                            id="city"
+                                            name="city"
+                                            value={userDetails.city}
+                                            onChange={handleInputChange}
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="teamId">Team Id:</label>
+                                        <input
+                                            id="teamId"
+                                            name="teamId"
+                                            value={userDetails.teamId}
+                                            onChange={handleInputChange}
+                                            type="number"
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                                <Col>
+                                    <div className="form-group">
+                                        <label htmlFor="birthday">Birthdate:</label>
+                                        <input
+                                            id="birthday"
+                                            name="birthday"
+                                            value={userDetails.birthday}
+                                            onChange={handleInputChange}
+                                            type="date"
+                                            className="form-control"
+                                        />
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </Card.Body>
+                </Card>
+
                 <h3>Roles</h3>
+                <Card>
+                    <Card.Body>
+                        
+                    </Card.Body>
+                </Card>
                 {/*{allRoles.map((role) => (
                     <div key={role} className="form-check">
                         <input
@@ -232,8 +270,12 @@ const ManageUserPage = () => {
             </form>
 
             <h3>Search Supervisor</h3>
-            <SearchBar onSearch={handleSearch}/>
-            {supervisorsMap}
+            <Card>
+                <Card.Body>
+                    <SearchBar onSearch={handleSearch}/>
+                    {supervisorsMap} 
+                </Card.Body>
+            </Card>
         </div>
     )
 };
