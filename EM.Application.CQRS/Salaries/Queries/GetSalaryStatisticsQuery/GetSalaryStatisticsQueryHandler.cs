@@ -15,6 +15,10 @@ public class GetSalaryStatisticsQueryHandler : IRequestHandler<GetSalaryStatisti
     
     public async Task<IEnumerable<SalaryStatisticResponseModel>> Handle(GetSalaryStatisticsQuery request, CancellationToken cancellationToken)
     {
-        return await _salaryService.GetEmployeeSalaryStatistics();
+        var salaryStatisticResponseModels = await _salaryService.GetEmployeeSalaryStatistics();
+        if (salaryStatisticResponseModels == null)
+            throw new Exception("Result is null");
+        
+        return salaryStatisticResponseModels;
     }
 }

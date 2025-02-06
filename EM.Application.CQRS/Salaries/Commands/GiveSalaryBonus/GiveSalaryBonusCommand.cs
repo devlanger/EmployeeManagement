@@ -1,6 +1,6 @@
 using MediatR;
 
-namespace EM.Application.CQRS.Salaries.Commands.GiveSalaryBonusCommand;
+namespace EM.Application.CQRS.Salaries.Commands.GiveSalaryBonus;
 
 public class GiveSalaryBonusCommand(string employeeId) : IRequest
 {

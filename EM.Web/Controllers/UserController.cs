@@ -1,5 +1,5 @@
 using EM.Application.CQRS.User.Queries.SearchUserQuery;
-using EM.Application.CQRS.Users.Commands.UpdateUserCommand;
+using EM.Application.CQRS.Users.Commands.UpdateUser;
 using EM.Application.CQRS.Users.Queries.GetEmployeeMaxSalary;
 using EM.Application.CQRS.Users.Queries.GetUserQueryById;
 using EM.Application.CQRS.Users.Queries.GetUsersByNameQuery;

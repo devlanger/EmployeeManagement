@@ -33,12 +33,7 @@ public class SalaryService : ISalaryService
                 .AsNoTracking()
                 .CountAsync();
 
-            response.Add(new ()
-            {
-                MinSalary = salaryGroup.Item1,
-                MaxSalary = salaryGroup.Item2,
-                Amount = amount
-            });
+            response.Add(new SalaryStatisticResponseModel(amount, salaryGroup.Item1, salaryGroup.Item2));
         }
 
         return response;

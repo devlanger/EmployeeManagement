@@ -1,7 +1,6 @@
-using EM.Application.Models;
 using MediatR;
 
-namespace EM.Application.CQRS.Users.Commands.UpdateUserCommand;
+namespace EM.Application.CQRS.Users.Commands.UpdateUser;
 
 public class UpdateUserCommand : IRequest
 {

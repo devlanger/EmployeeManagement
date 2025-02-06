@@ -1,4 +1,4 @@
-using EM.Application.CQRS.Salaries.Commands.GiveSalaryBonusCommand;
+using EM.Application.CQRS.Salaries.Commands.GiveSalaryBonus;
 using EM.Application.CQRS.Salaries.Queries.GetSalaryStatisticsQuery;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;

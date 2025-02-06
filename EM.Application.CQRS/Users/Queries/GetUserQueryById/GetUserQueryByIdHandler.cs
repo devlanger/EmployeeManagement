@@ -1,5 +1,5 @@
 using AutoMapper;
-using EM.Application.CQRS.Users.Exceptions;
+using EM.Application.CQRS.Common.Exceptions;
 using EM.Application.Models;
 using EM.Core.Models;
 using MediatR;

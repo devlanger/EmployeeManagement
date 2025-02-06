@@ -1,13 +1,13 @@
 using EM.Application.Abstract.Services;
-using EM.Application.CQRS.Users.Exceptions;
+using EM.Application.CQRS.Common.Exceptions;
 using EM.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace EM.Application.CQRS.Users.Commands.UpdateUserCommand;
+namespace EM.Application.CQRS.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
+public class UpdateUserCommandHandler : IRequestHandler<UpdateUser.UpdateUserCommand>
 {
     private readonly UserManager<ApplicationUser> _usersManager;
     private readonly IRoleService _roleService;
@@ -18,7 +18,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand>
         _roleService = roleService;
     }
     
-    public async Task Handle(UpdateUserCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateUser.UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _usersManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id,
             cancellationToken: cancellationToken);
