@@ -1,6 +1,4 @@
 using System.Text;
-using Azure.Core.Extensions;
-using EM.Application.Concrete;
 using EM.Core.Models;
 using EM.Infrastructure;
 using EM.Infrastructure.Configuration.Extensions;
@@ -53,10 +51,7 @@ if (!builder.Environment.IsDevelopment())
 }
 else
 {
-    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
-                           throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseSqlServer(connectionString));
+    builder.Services.AddSqlServer<ApplicationDbContext>("main");
 }
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
