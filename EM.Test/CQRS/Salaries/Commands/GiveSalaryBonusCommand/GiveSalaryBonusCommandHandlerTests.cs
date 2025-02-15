@@ -1,4 +1,5 @@
 using EM.Application.Abstract.Services;
+using EM.Application.Extensions;
 using EM.Application.CQRS.Common.Exceptions;
 using EM.Application.CQRS.Salaries.Commands.GiveSalaryBonus;
 using EM.Core.Models;
@@ -13,21 +14,24 @@ public class GiveSalaryBonusCommandHandlerTests : BaseTest
     private readonly Mock<UserManager<ApplicationUser>> _userManagerMock;
     private readonly Mock<IBonusService> _bonusServiceMock;
     private readonly GiveSalaryBonusCommandHandler _handler;
+    private readonly Mock<IAuditLogService> _auditLogMock;
 
     public GiveSalaryBonusCommandHandlerTests()
     {
         _userManagerMock = MockUserManager<ApplicationUser>();
         _bonusServiceMock = new Mock<IBonusService>();
+        _auditLogMock = new Mock<IAuditLogService>();
         _handler = new GiveSalaryBonusCommandHandler(
             _userManagerMock.Object,
-            _bonusServiceMock.Object);
+            _bonusServiceMock.Object,
+            _auditLogMock.Object);
     }
 
     [Fact]
     public async Task Handle_UserNotFound_ThrowsException()
     {
         //Arrange
-        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand("1");
+        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand(1);
         _userManagerMock.Setup(um =>
                 um.FindByIdAsync(It.IsAny<string>()))
             .ReturnsAsync((ApplicationUser)null);
@@ -40,8 +44,8 @@ public class GiveSalaryBonusCommandHandlerTests : BaseTest
     public async Task Handle_ValidUser_GivesBonusAndUpdatesUser()
     {
         // Arrange
-        var user = new ApplicationUser { Id = "1" };
-        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand("1");
+        var user = new ApplicationUser { Id = 1 };
+        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand(1);
 
         _userManagerMock.Setup(um => um.FindByIdAsync(command.EmployeeId))
             .ReturnsAsync(user);
@@ -60,8 +64,8 @@ public class GiveSalaryBonusCommandHandlerTests : BaseTest
     public async Task Handle_UpdateFails_ThrowsException()
     {
         //Arrange
-        var user = new ApplicationUser() { Id = "1" };
-        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand("1");
+        var user = new ApplicationUser() { Id = 1 };
+        var command = new Application.CQRS.Salaries.Commands.GiveSalaryBonus.GiveSalaryBonusCommand(1);
 
         _userManagerMock.Setup(x => x.FindByIdAsync(command.EmployeeId))
             .ReturnsAsync(user);
