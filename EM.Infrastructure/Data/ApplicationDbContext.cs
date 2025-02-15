@@ -20,5 +20,7 @@ public class ApplicationDbContext
             .OnDelete(DeleteBehavior.Cascade);
         
         builder.Entity<Team>();
+
+        builder.Entity<AuditLog>();
     }
 }
