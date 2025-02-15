@@ -51,7 +51,7 @@ if (!builder.Environment.IsDevelopment())
 }
 else
 {
-    builder.Services.AddSqlServer<ApplicationDbContext>("main");
+    builder.AddSqlServerDbContext<ApplicationDbContext>("database");
 }
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();

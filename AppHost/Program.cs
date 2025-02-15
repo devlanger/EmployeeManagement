@@ -1,12 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var db = builder.AddSqlServer("em-sql")
+var db = builder.AddSqlServer("sql")
     .WithLifetime(ContainerLifetime.Persistent)
-    .AddDatabase("main");
+    .AddDatabase("database");
 
 
 var webApp = builder
     .AddProject("em-web", "../EM.Web/EM.Web.csproj")
-    .WithReference(db);
+    .WithReference(db)
+    .WaitFor(db);
 
 builder.Build().Run();
