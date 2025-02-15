@@ -13,7 +13,8 @@ export interface User {
 
 
 export enum AuditLogType {
-    USER_UPDATE = 1
+    USER_UPDATE = 1,
+    USER_SALARY_UPDATE = 2,
 }
 
 export interface AuditLog {

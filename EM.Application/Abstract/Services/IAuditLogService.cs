@@ -1,4 +1,5 @@
 ﻿using EM.Application.Concrete.Services;
+using EM.Core.AuditLogs;
 using EM.Core.Models;
 
 namespace EM.Application.Abstract.Services;

@@ -1,6 +1,5 @@
-﻿using System.Text.Json;
-using EM.Application.Abstract.Services;
-using EM.Core.Enums;
+﻿using EM.Application.Abstract.Services;
+using EM.Core.AuditLogs;
 using EM.Core.Models;
 using Newtonsoft.Json;
 
@@ -11,12 +10,19 @@ public class AuditLogService(IRepository<AuditLog> auditLogRepository) : IAuditL
     public void Log(AuditLogBase auditLog)
     {
         var log = new AuditLog();
-        
-        log.EntityId = auditLog switch
+
+        switch (auditLog)
         {
-            UpdateUserAuditLog updateUserAuditLog => updateUserAuditLog.UserId,
-            _ => log.EntityId
-        };
+            case UpdateUserAuditLog updateUserAuditLog:
+                log.EntityId = updateUserAuditLog.UserId;
+                break;
+            case UpdateUserSalaryAuditLog salaryAuditLog:
+                log.EntityId = salaryAuditLog.UserId;
+                break;
+            default:
+                log.EntityId = log.EntityId;
+                break;
+        }
 
         log.Type = auditLog.Type;
         log.Data = JsonConvert.SerializeObject(auditLog);
@@ -24,24 +30,4 @@ public class AuditLogService(IRepository<AuditLog> auditLogRepository) : IAuditL
         
         auditLogRepository.AddAsync(log);
     }
-}
-
-public abstract class AuditLogBase
-{
-    public abstract AuditLogType Type { get; }
-}
-
-public class UpdateUserAuditLog() : AuditLogBase
-{
-    public override AuditLogType Type => AuditLogType.USER_UPDATE;
-    
-    public string Email { get; set; }
-    
-    public string Username { get; set; }
-
-    public string? City { get; set; }
-
-    public decimal Salary { get; set; }
-    
-    public int UserId { get; set; }
 }

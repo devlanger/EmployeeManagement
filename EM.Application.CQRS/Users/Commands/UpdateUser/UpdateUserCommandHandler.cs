@@ -1,6 +1,7 @@
 using EM.Application.Abstract.Services;
 using EM.Application.Concrete.Services;
 using EM.Application.CQRS.Common.Exceptions;
+using EM.Core.AuditLogs;
 using EM.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;

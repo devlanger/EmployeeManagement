@@ -3,6 +3,5 @@
 public enum AuditLogType
 {
     USER_UPDATE = 1,
-    TEAM_UPDATE = 2,
-    SUPERVISOR_UPDATE = 3,
+    USER_SALARY_UPDATE = 2,
 }

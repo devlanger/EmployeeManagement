@@ -269,7 +269,7 @@ const ManageUserPage = () => {
             <h3>Audit Logs</h3>
             <Card>
                 <Card.Body>
-                    <AuditLogTable userId={userId} />
+                    <AuditLogTable type={1} userId={userId} />
                 </Card.Body>
             </Card>
         </div>
