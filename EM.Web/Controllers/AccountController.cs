@@ -38,7 +38,7 @@ public class AccountController : ControllerBase
     {
         var claims = new[]
         {
-            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, user.Id),
+            new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.NameIdentifier, user.Id.ToString()),
             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, user.UserName),
             new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Email, user.Email)
         };

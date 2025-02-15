@@ -12,7 +12,7 @@ public static class SeedData
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
 
         var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
-        var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+        var roleManager = services.GetRequiredService<RoleManager<ApplicationRole>>();
 
         await context.Database.EnsureCreatedAsync();
 
@@ -23,7 +23,7 @@ public static class SeedData
                 var roleExist = await roleManager.RoleExistsAsync(role);
                 if (!roleExist)
                 {
-                    await roleManager.CreateAsync(new IdentityRole(role));
+                    await roleManager.CreateAsync(new ApplicationRole(role));
                 }
             }
         }

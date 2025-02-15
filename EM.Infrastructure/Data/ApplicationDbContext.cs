@@ -1,11 +1,12 @@
 using EM.Core.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EM.Infrastructure.Data;
 
 public class ApplicationDbContext
-    (DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
+    (DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser, ApplicationRole, int>(options)
 {
     public DbSet<Team> Teams { get; set; }
 
@@ -18,6 +19,14 @@ public class ApplicationDbContext
             .WithMany(e => e.Members)
             .HasForeignKey(e => e.TeamId)
             .OnDelete(DeleteBehavior.Cascade);
+        
+        builder.Entity<ApplicationUser>()
+            .Property(r => r.Id)
+            .ValueGeneratedOnAdd(); 
+        
+        builder.Entity<ApplicationRole>()
+            .Property(r => r.Id)
+            .ValueGeneratedOnAdd(); 
         
         builder.Entity<Team>();
 

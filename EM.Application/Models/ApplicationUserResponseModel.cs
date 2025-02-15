@@ -2,7 +2,7 @@ namespace EM.Application.Models;
 
 public class ApplicationUserResponseModel
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
     
     public string Username { get; set; }
     
@@ -18,7 +18,7 @@ public class ApplicationUserResponseModel
     
     public string? City { get; set; }
     
-    public string? SupervisorId { get; set; }
+    public int? SupervisorId { get; set; }
     
     public string? SupervisorName { get; set; }
     

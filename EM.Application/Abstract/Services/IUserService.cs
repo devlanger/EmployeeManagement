@@ -4,7 +4,7 @@ namespace EM.Application.Abstract.Services;
 
 public interface IUserService
 {
-    Task<ApplicationUser> GetUserAsync(string userId);
+    Task<ApplicationUser> GetUserAsync(int userId);
     
     Task<ApplicationUser> GetUserWithSmallestSalaryAsync();
 }

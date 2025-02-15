@@ -4,18 +4,8 @@ import axios from "axios";
 import SearchBar from "../Components/SearchBar";
 import {Col, Container, Row} from "react-bootstrap";
 import Card from "react-bootstrap/Card";
-
-interface User {
-    id: string;
-    username: string;
-    email: string;
-    city: string;
-    firstName: string;
-    lastName: string;
-    birthday: string;
-    teamId: number | null;
-    supervisorId: string | null;
-}
+import {User, AuditLog} from "../Shared.tsx";
+import AuditLogTable from "../Components/AuditLogTable.tsx";
 
 const ManageUserPage = () => {
     const {userId} = useParams();
@@ -36,8 +26,7 @@ const ManageUserPage = () => {
     });
 
     const [searchUsers, setSearchUsers] = useState<User[]>([]);
-
-    //const [allRoles, setAllRoles] = useState([]);
+    
     const [stateMessage, setStateMessage] = useState("");
 
     // Fetch user and roles data
@@ -274,6 +263,13 @@ const ManageUserPage = () => {
                 <Card.Body>
                     <SearchBar onSearch={handleSearch}/>
                     {supervisorsMap} 
+                </Card.Body>
+            </Card>
+            
+            <h3>Audit Logs</h3>
+            <Card>
+                <Card.Body>
+                    <AuditLogTable userId={userId} />
                 </Card.Body>
             </Card>
         </div>

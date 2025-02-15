@@ -37,7 +37,7 @@ public class UserController(ISender mediator) : ControllerBase
     }
     
     [HttpGet("{userId}")]
-    public async Task<IActionResult> GetById(string userId)
+    public async Task<IActionResult> GetById(int userId)
     {
         var e = await mediator.Send(new GetUserByIdQuery()
         {

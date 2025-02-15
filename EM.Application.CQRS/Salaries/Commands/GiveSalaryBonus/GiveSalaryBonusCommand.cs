@@ -2,7 +2,7 @@ using MediatR;
 
 namespace EM.Application.CQRS.Salaries.Commands.GiveSalaryBonus;
 
-public class GiveSalaryBonusCommand(string employeeId) : IRequest
+public class GiveSalaryBonusCommand(int employeeId) : IRequest
 {
-    public string EmployeeId { get; set; } = employeeId;
+    public int EmployeeId { get; set; } = employeeId;
 }

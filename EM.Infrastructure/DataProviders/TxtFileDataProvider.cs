@@ -51,7 +51,7 @@ public class TxtFileDataProvider(IOptions<TxtDataSettings> options) : IDataProvi
         if (!decimal.TryParse(salaryDataFields[2], out var salary))
             throw new ArgumentException("Issue reading salary data field 2");
 
-        var id = salaryDataFields[0];
+        var id = int.Parse(salaryDataFields[0]);
         var personalIdNumber = salaryDataFields[1];
         
         return new ApplicationUser() 

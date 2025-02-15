@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace EM.Core.Models;
 
-public class ApplicationUser : IdentityUser
+public class ApplicationUser : IdentityUser<int>
 {
     public string FirstName { get; set; }
     
@@ -18,7 +18,7 @@ public class ApplicationUser : IdentityUser
     
     public string? City { get; set; }
     
-    public string? SupervisorId { get; set; }
+    public int? SupervisorId { get; set; }
     
     public ApplicationUser Supervisor { get; set; }
 

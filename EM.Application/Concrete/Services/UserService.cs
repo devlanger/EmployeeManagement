@@ -14,7 +14,7 @@ public class UserService : IUserService
         _userManager = userManager;
     }
 
-    public async Task<ApplicationUser> GetUserAsync(string userId)
+    public async Task<ApplicationUser> GetUserAsync(int userId)
     {
         var data = await _userManager.Users.ToListAsync();
         var x = data.FirstOrDefault(e => e.Id == userId);

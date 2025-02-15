@@ -4,6 +4,7 @@ using EM.Application.Models;
 using EM.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EM.Application.CQRS.Users.Queries.GetUserQueryById;
 
@@ -20,7 +21,7 @@ public class GetUserQueryByIdHandler : IRequestHandler<GetUserByIdQuery, Applica
     
     public async Task<ApplicationUserResponseModel> Handle(GetUserByIdQuery request, CancellationToken cancellationToken)
     {
-        var user = await _employeeRepo.FindByIdAsync(request.Id);
+        var user = await _employeeRepo.Users.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken: cancellationToken);
         
         if (user == null)
             throw new UserNotFoundException(request.Id);

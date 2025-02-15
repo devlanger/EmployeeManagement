@@ -6,7 +6,9 @@ public class AuditLog : BaseEntity
 {
     public AuditLogType Type { get; set; }
 
-    public required string Data { get; set; }
+    public int? EntityId { get; set; }
+    
+    public string Data { get; set; }
     
     public DateTime CreatedDate { get; set; }
 }

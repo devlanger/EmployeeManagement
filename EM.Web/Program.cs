@@ -59,11 +59,11 @@ builder.Services.AddHttpClient();
 builder.Services.AddControllers();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => { options.SignIn.RequireConfirmedAccount = false; })
-    .AddRoles<IdentityRole>()
+    .AddRoles<ApplicationRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddSignInManager()
     .AddUserManager<UserManager<ApplicationUser>>()
-    .AddRoleManager<RoleManager<IdentityRole>>();
+    .AddRoleManager<RoleManager<ApplicationRole>>();
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 builder.Services.AddAuthentication(options =>

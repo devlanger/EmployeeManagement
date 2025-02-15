@@ -21,6 +21,7 @@ public static class DataServiceCollectionExtensions
         services.AddScoped<ISalaryService, SalaryService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IRoleService, RoleService>();
+        services.AddScoped<IAuditLogService, AuditLogService>();
         services.AddScoped<IDataProvider<ApplicationUser>, SqlDataProvider>();
         services.AddAutoMapper(typeof(GlobalMappingProfile));
     }

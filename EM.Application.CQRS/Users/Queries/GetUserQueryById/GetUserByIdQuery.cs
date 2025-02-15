@@ -5,5 +5,5 @@ namespace EM.Application.CQRS.Users.Queries.GetUserQueryById;
 
 public class GetUserByIdQuery : IRequest<ApplicationUserResponseModel>
 {
-    public string Id { get; set; }
+    public int Id { get; set; }
 }

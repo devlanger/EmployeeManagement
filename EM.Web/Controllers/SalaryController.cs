@@ -24,7 +24,7 @@ public class SalaryController : ControllerBase
     }
 
     [HttpPost("{employeeId}")]
-    public async Task<IActionResult> GiveBonus(string employeeId)
+    public async Task<IActionResult> GiveBonus(int employeeId)
     {
         await _mediator.Send(new GiveSalaryBonusCommand(employeeId));
         return Ok();

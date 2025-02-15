@@ -9,6 +9,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import {AuthProvider} from "./auth-context";
 import PrivateRoute from './PrivateRoute';
 import UsersPage from "./Pages/UsersPage";
+import AuditLogsPage from "./Pages/AuditLogsPage.tsx";
 
 function App() {
     return (
@@ -20,6 +21,7 @@ function App() {
                     <Route path="/employees" element={<PrivateRoute component={EmployeesPage} />}/>
                     <Route path="/teams" element={<PrivateRoute component={TeamsPage} />}/>
                     <Route path="/users" element={<PrivateRoute component={UsersPage} />}/>
+                    <Route path="/auditlogs" element={<PrivateRoute component={AuditLogsPage} />}/>
                     <Route path="/users/:userId" element={<PrivateRoute component={ManageUserPage} />} />
                     <Route path="*" element={<Navigate to="/login" />} />
                 </Routes>

@@ -1,4 +1,5 @@
 using EM.Application.Abstract.Services;
+using EM.Application.Concrete.Services;
 using EM.Application.CQRS.Common.Exceptions;
 using EM.Core.Models;
 using MediatR;
@@ -7,20 +8,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EM.Application.CQRS.Users.Commands.UpdateUser;
 
-public class UpdateUserCommandHandler : IRequestHandler<UpdateUser.UpdateUserCommand>
+public class UpdateUserCommandHandler(
+    UserManager<ApplicationUser> usersManager, 
+    IRoleService roleService,
+    IAuditLogService auditLogService)
+    : IRequestHandler<UpdateUser.UpdateUserCommand>
 {
-    private readonly UserManager<ApplicationUser> _usersManager;
-    private readonly IRoleService _roleService;
-    
-    public UpdateUserCommandHandler(UserManager<ApplicationUser> usersManager, IRoleService roleService)
-    {
-        _usersManager = usersManager;
-        _roleService = roleService;
-    }
-    
     public async Task Handle(UpdateUser.UpdateUserCommand request, CancellationToken cancellationToken)
     {
-        var user = await _usersManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id,
+        var user = await usersManager.Users.FirstOrDefaultAsync(x => x.Id == request.Id,
             cancellationToken: cancellationToken);
 
         if (user == null)
@@ -36,8 +32,18 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUser.UpdateUserCom
         //Add locking
         if (request.SelectedRoles != null)
         {
-            await _roleService.UpdateUserRolesAsync(user, request.SelectedRoles.ToList());
+            await roleService.UpdateUserRolesAsync(user, request.SelectedRoles.ToList());
         }
-        await _usersManager.UpdateAsync(user);
+
+        await usersManager.UpdateAsync(user);
+        
+        auditLogService.Log(new UpdateUserAuditLog()
+        {
+            UserId = user.Id,
+            City = user.City,
+            Email = user.Email,
+            Salary = user.Salary,
+            Username = user.Email,
+        });
     }
 }

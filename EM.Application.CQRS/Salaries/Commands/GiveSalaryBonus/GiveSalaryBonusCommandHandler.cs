@@ -3,6 +3,7 @@ using EM.Application.CQRS.Common.Exceptions;
 using EM.Core.Models;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EM.Application.CQRS.Salaries.Commands.GiveSalaryBonus;
 
@@ -21,10 +22,10 @@ public class GiveSalaryBonusCommandHandler : IRequestHandler<GiveSalaryBonusComm
     
     public async Task Handle(GiveSalaryBonusCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userManager.FindByIdAsync(request.EmployeeId);
+        var user = await _userManager.Users.FirstOrDefaultAsync(x => x.Id == request.EmployeeId, cancellationToken: cancellationToken);
         
         if (user == null)
-            throw new UserNotFoundException($"User with id {request.EmployeeId} not found");
+            throw new UserNotFoundException(request.EmployeeId);
 
         _bonusService.GiveBonus(user, 0.2m);
 

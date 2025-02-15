@@ -12,6 +12,7 @@ const SidebarLayout = ({children}) => {
                         <Nav.Link href="/Employees">Employees</Nav.Link>
                         <Nav.Link href="/Teams">Teams</Nav.Link>
                         <Nav.Link href="/Users">Users</Nav.Link>
+                        <Nav.Link href="/auditlogs">Audit logs</Nav.Link>
                     </Nav>
                 </Col>
                 <Col className="p-0" style={{height: "100vh", overflow: "auto"}}>
